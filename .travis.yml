@@ -1,0 +1,8 @@
+language: cpp
+branches:
+  only:
+    - master
+script:
+  - git clone https://github.com/DavyVan/UCR-CS217-FinalProject.git
+  - cmake -Bbuild . -DTEST_ENABLED=ON
+  - cmake --build build
