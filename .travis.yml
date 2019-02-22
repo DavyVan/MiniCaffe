@@ -2,6 +2,7 @@ language: cpp
 branches:
   only:
     - master
+    - fq-dev
 script:
   - git clone https://github.com/DavyVan/UCR-CS217-FinalProject.git
   - cmake -Bbuild . -DTEST_ENABLED=ON
