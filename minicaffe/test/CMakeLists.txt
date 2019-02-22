@@ -5,18 +5,18 @@ project(minicaffe_test)
 execute_process(COMMAND mkdir build
   RESULT_VARIABLE result
   WORKING_DIRECTORY ../third_party/googletest/googletest )
-execute_process(COMMAND ${CMAKE_COMMAND} .. -DCMAKE_CXX_FLAGS=-std=c++11 -G "${CMAKE_GENERATOR}"
-  RESULT_VARIABLE result
-  WORKING_DIRECTORY ../third_party/googletest/googletest/build )
-if(result)
-  message(FATAL_ERROR "CMake step for googletest failed: ${result}")
-endif()
-execute_process(COMMAND ${CMAKE_COMMAND} --build build
-  RESULT_VARIABLE result
-  WORKING_DIRECTORY ../third_party/googletest/googletest )
-if(result)
-  message(FATAL_ERROR "Build step for googletest failed: ${result}")
-endif()
+# execute_process(COMMAND ${CMAKE_COMMAND} .. -DCMAKE_CXX_FLAGS=-std=c++11 -G "${CMAKE_GENERATOR}"
+#   RESULT_VARIABLE result
+#   WORKING_DIRECTORY ../third_party/googletest/googletest/build )
+# if(result)
+#   message(FATAL_ERROR "CMake step for googletest failed: ${result}")
+# endif()
+# execute_process(COMMAND ${CMAKE_COMMAND} --build build
+#   RESULT_VARIABLE result
+#   WORKING_DIRECTORY ../third_party/googletest/googletest )
+# if(result)
+#   message(FATAL_ERROR "Build step for googletest failed: ${result}")
+# endif()
 
 # Prevent overriding the parent project's compiler/linker
 # settings on Windows
