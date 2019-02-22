@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+# cmake_minimum_required(VERSION 3.10)
 
 project(minicaffe_test)
 
@@ -28,5 +28,5 @@ add_subdirectory(../third_party/googletest/googletest
 add_executable(blob_test blob_test.cpp)
 target_link_libraries(blob_test blob gtest_main)
 
-include(GoogleTest)
-gtest_add_tests(TARGET "blob_test")
+# include(GoogleTest)
+# gtest_add_tests(TARGET "blob_test")   # We do not use CTest to manage test cases.

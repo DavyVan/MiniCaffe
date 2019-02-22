@@ -1,8 +1,6 @@
 language: cpp
 os:
   - linux
-  dist: 
-    - xenial
   - windows
 branches:
   only:
