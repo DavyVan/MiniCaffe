@@ -1,0 +1,3 @@
+[submodule "minicaffe/third_party/googletest"]
+	path = minicaffe/third_party/googletest
+	url = https://github.com/google/googletest.git
