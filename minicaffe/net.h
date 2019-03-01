@@ -37,7 +37,7 @@ class Net
 
         Blob get_output();
 
-        Net add_layer(Layer layer);
+        int add_layer(Layer* layer);
     
     private:
         //TODO: data structure to store the network
