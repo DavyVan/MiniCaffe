@@ -21,7 +21,7 @@ using namespace std;
 class Layer
 {
     public:
-        const char* name;                 /**< The name of this layer. */
+        char* name;                 /**< The name of this layer. */
 
         vector<Blob*> left_blobs;         /**< Multiple input/output blobs. Left means input for inference and output for bp. */
         vector<Blob*> right_blobs;        /**< Multiple output/output blobs. Right means output for inference and input for bp.*/
@@ -33,9 +33,26 @@ class Layer
         virtual void bp()=0;
 
     protected:
-        Layer();    //TODO: init name
 
-        int add_to_net(Net* net, const char* lefts[], const char* rights[]);   //TODO: call net->add_layer(this, lefts, rights)
+        /***
+         * @brief Constructor of Layers' base class.
+         * Accept layer's name.
+         */
+        Layer(char* name);
+
+        /***
+         * @brief Add itself to @Net
+         * It is implemented as a member function to ensure that a instance must be constructed before we can add a layer to net.
+         * It is designed to be called from wrapper.
+         * 
+         * @param net       The model user created.
+         * @param lefts     Blobs on the left. Instantiation of Blobs will take place in @Net so we only need string identifiers.
+         *                  Actually, lefts are already constructed when adding the previous layer.
+         * @param rights    Blobs on the right. Instantiation of Blobs will take place in @Net so we only need string identifiers.
+         * 
+         * @return Error code.
+         */
+        int add_to_net(Net* net, const char* lefts[], const char* rights[]);
 };
 
 #endif

@@ -37,7 +37,7 @@ class Net
 
         Blob get_output();
 
-        int add_layer(Layer* layer);
+        int add_layer(Layer* layer, const char* lefts[], const char* rights[]);
     
     private:
         //TODO: data structure to store the network
