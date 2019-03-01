@@ -7,11 +7,11 @@
 
 #include <cstring>
 #include "layer.h"
+#include "util.h"
 
 Layer::Layer(char* name)
 {
-    this->name = new char[strlen(name)];
-    strcpy(this->name, name);
+    alloc_and_strcpy(&(this->name), name);
 }
 
 int Layer::add_to_net(Net* net, const char* lefts[], const char* rights[])

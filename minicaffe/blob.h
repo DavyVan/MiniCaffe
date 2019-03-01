@@ -8,6 +8,8 @@
 #ifndef _BLOB_H_
 #define _BLOB_H_
 
+#include <cstdlib>
+
 /***
  * @brief Blob class, where the data actually stored.
  * 
@@ -22,14 +24,50 @@ class Blob
         int z;              /**< z dimension. Blob describes a 3D matrix. This is the 4th dimension of blob */
         int sizeofEle;      /**< Size in bytes of each element. */
         
-        float* _data;       /**< Where actually the data stored. We now only consider float type. */
+        float* _data = NULL;       /**< Where actually the data stored. We now only consider float type. */
 
+        /***
+         * @brief Constructor. Call this when you don't know the size of blob
+         * 
+         * @param name      Name of blob.
+         * @param sizeofEle sizeof element. Default is float(4)
+         */
         Blob(char* name, int sizeofEle=4);
 
+        /***
+         * @brief Constructor. Call this when you are aware of each dimensions of blob
+         * 
+         * @param name      Name of blob
+         * @param batchSize 1st dimension, see @Blob::batchSize.
+         * @param x         2nd dimension, see @Blob::x.
+         * @param y         3rd dimension, see @Blob::y.
+         * @param z         4th dimension, see @Blob::z.
+         * @param sizeofEle Size of each element, see @Blob::sizeofEle.
+         * 
+         */
         Blob(char* name, int batchSize, int x, int y, int z, int sizeofEle=4);
-        // ~Blob();
+
+        /***
+         * @brief No-param constructor.
+         * This is a placeholder function and not suppose to be used in practice.
+         */
+        Blob();
+
+        /***
+         * @brief De-constructor.
+         * Free all allocated memory.
+         * 
+         */
+        ~Blob();
 
         int get_ele_num();
+
+        /***
+         * @brief Initialize current blob.
+         * Allocate memory space and assign the first value.
+         * 
+         */
+        void init();
 };
 
 #endif
