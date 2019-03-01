@@ -28,8 +28,9 @@ add_subdirectory(../third_party/googletest/googletest
                  ../third_party/googletest/googletest/build
                  EXCLUDE_FROM_ALL)
 
-add_executable(blob_test blob_test.cpp)
-target_link_libraries(blob_test blob gtest_main)
+file(GLOB TEST_SRC_FILES "*.cpp")
+add_executable(test ${TEST_SRC_FILES})
+target_link_libraries(test minicaffe gtest_main)
 
 # include(GoogleTest)
 # gtest_add_tests(TARGET "blob_test")   # We do not use CTest to manage test cases.

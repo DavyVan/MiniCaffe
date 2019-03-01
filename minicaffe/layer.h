@@ -32,6 +32,15 @@ class Layer
 
         virtual void bp()=0;
 
+        /***
+         * @brief Calculate the outputs' dimensions given inputs' dimensions.
+         * This function is used by @Net to construct Blobs, and layer itself.
+         * 
+         * @param intputs_dims [in] Dimensions of input blobs. [batchSize0, x0, y0, z0, batchSize1, x1, y1, z1, ...]
+         * @param outputs_dims [out] Dimensions of output blobs. It has the same format as @inputs_dims
+         */
+        virtual void get_outputs_dimension(int inputs_dims[], int outputs_dims[])=0;
+
     protected:
 
         /***

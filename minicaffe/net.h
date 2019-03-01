@@ -8,8 +8,10 @@
 #ifndef _NET_H_
 #define _NET_H_
 
-#include "layer.h"
+// #include "layer.h"
 #include "blob.h"
+
+class Layer;
 
 class Net
 {

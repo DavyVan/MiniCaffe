@@ -12,7 +12,7 @@ Blob::Blob()
     x = 0;
     y = 0;
     z = 0;
-    elementSize = 4;
+    sizeofEle = 4;
     name = "undefined";
 }
 
