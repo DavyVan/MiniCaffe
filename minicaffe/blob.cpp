@@ -6,11 +6,19 @@
  */
 
 #include <cstring>
+#include <cstdlib>
 #include "blob.h"
 #include "util.h"
+#include "errors.h"
 
 Blob::Blob(char* name, int sizeofEle)
     : sizeofEle(sizeofEle)
+{
+    alloc_and_strcpy(&(this->name), name);
+}
+
+Blob::Blob(char* name, int batchSize, int x, int y, int z, int sizeofEle)
+    : batchSize(batchSize), x(x), y(y), z(z), sizeofEle(sizeofEle)
 {
     alloc_and_strcpy(&(this->name), name);
 }
@@ -33,4 +41,25 @@ Blob::~Blob()
 int Blob::get_ele_num()
 {
     return x*y*z;
+}
+
+int Blob::init()
+{
+    // check dimensions are non-zero
+    if (batchSize == 0 || x==0 || y==0 || z==0)
+    {
+        print_err_str(ZERO_DIM);
+        return ZERO_DIM;
+    }
+
+    // if blob has been already initialized
+    if (_data != NULL)
+        return 0;     // TODO: may call reset() or throw an error
+
+    // Allocate memory space
+    _data = (float*) malloc(get_ele_num()*sizeofEle);
+
+    //TODO: Initial value?
+
+    return 0;
 }

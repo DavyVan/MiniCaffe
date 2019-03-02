@@ -12,7 +12,7 @@ class testLayer : public Layer
 {
 public:
     testLayer(char* name):Layer(name){}
-    int init(){}
+    int init(){return 0;}
     void infer(){}
     void bp(){}
     void get_outputs_dimension(int inputs_dims[], int outputs_dims[]){}

@@ -21,7 +21,7 @@ using namespace std;
 class Layer
 {
     public:
-        char* name;                 /**< The name of this layer. */
+        char* name;                       /**< The name of this layer. */
 
         vector<Blob*> left_blobs;         /**< Multiple input/output blobs. Left means input for inference and output for bp. */
         vector<Blob*> right_blobs;        /**< Multiple output/output blobs. Right means output for inference and input for bp.*/
@@ -36,10 +36,12 @@ class Layer
          * @brief Calculate the outputs' dimensions given inputs' dimensions.
          * This function is used by @Net to construct Blobs, and layer itself.
          * 
-         * @param intputs_dims [in] Dimensions of input blobs. [batchSize0, x0, y0, z0, batchSize1, x1, y1, z1, ...]
+         * @param intputs_dims [in] Dimensions of input blobs. [batchSize0, x0, y0, z0, batchSize1, x1, y1, z1, ...] if more than one blob
          * @param outputs_dims [out] Dimensions of output blobs. It has the same format as @inputs_dims
          */
-        virtual void get_outputs_dimension(int inputs_dims[], int outputs_dims[])=0;
+        virtual void get_outputs_dimensions(int inputs_dims[], int outputs_dims[])=0;
+
+        virtual bool check_dimensions();
 
     protected:
 

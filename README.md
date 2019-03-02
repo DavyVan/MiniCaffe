@@ -5,7 +5,7 @@ fq-dev: [![Build Status](https://travis-ci.com/DavyVan/UCR-CS217-FinalProject.sv
 
 ## NOTICE
 
-1. Add wrapper for each layer. For example: FullyConnectedLayer has a wrapper fc(Net* net, name, lefts, right[, _layer specific params_])
+1. Add wrapper for each layer. For example: FullyConnectedLayer has a wrapper "FullyConnectedLayer FullyConnectedLayer::fc(Net* net, name, lefts, right[, _layer specific params_])"
 2. Call base class Layer's constructor function with layer's name
 3. Must provide get_outputs_dim(). Each blob has 4 dimensions \[batchsize, x, y, z\]. If exist more than one blobs, concatenate them in one integer array.
 

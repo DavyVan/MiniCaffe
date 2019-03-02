@@ -9,6 +9,9 @@
 #define _BLOB_H_
 
 #include <cstdlib>
+// #include "layer.h"
+
+class Layer;
 
 /***
  * @brief Blob class, where the data actually stored.
@@ -17,14 +20,17 @@
 class Blob
 {
     public:
-        char* name;         /**< Blob's name */
-        int batchSize;      /**< Batch size that current blob contains. This is the 1st dimension of blob. */
-        int x;              /**< x dimension. Blob describes a 3D matrix. This is the 2nd dimension of blob*/
-        int y;              /**< y dimension. Blob describes a 3D matrix. This is the 3rd dimension of blob*/
-        int z;              /**< z dimension. Blob describes a 3D matrix. This is the 4th dimension of blob */
-        int sizeofEle;      /**< Size in bytes of each element. */
+        char* name;                 /**< Blob's name */
+        int batchSize;              /**< Batch size that current blob contains. This is the 1st dimension of blob. */
+        int x;                      /**< x dimension. Blob describes a 3D matrix. This is the 2nd dimension of blob*/
+        int y;                      /**< y dimension. Blob describes a 3D matrix. This is the 3rd dimension of blob*/
+        int z;                      /**< z dimension. Blob describes a 3D matrix. This is the 4th dimension of blob */
+        int sizeofEle;              /**< Size in bytes of each element. */
         
-        float* _data = NULL;       /**< Where actually the data stored. We now only consider float type. */
+        float* _data = NULL;        /**< Where actually the data stored. We now only consider float type. */
+
+        Layer* left_layer;          /**< Connected layer on the left. One blob can only have one left layer. */
+        Layer* right_layer;         /**< Connected layer on the right. One blob can only have one right layer. */
 
         /***
          * @brief Constructor. Call this when you don't know the size of blob
@@ -66,8 +72,9 @@ class Blob
          * @brief Initialize current blob.
          * Allocate memory space and assign the first value.
          * 
+         * @return Exit code
          */
-        void init();
+        int init();
 };
 
 #endif
