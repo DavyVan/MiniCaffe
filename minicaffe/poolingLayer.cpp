@@ -2,28 +2,30 @@
 #include "layer.h"
 #include "errors.h"
 
-class PoolingLayer : public Layer
+class PoolingLayer : public layer
 {
 private:
 	int mask_x, mask_y, stride;
 
 public:
-	PoolingLayer()
+	PoolingLayer(char *name)
 	{
 		mask_x = 5;
 		mask_y = 5;
 		stride = 2;
+		Layer(name);
 	}
 
-	PoolingLayer(int x, int y, int s)
+	PoolingLayer(char *name, int x, int y, int s)
 	{
 		mask_x = x;
 		mask_y = y;
 		stride = s;
+		Layer(name);
 	}
 
 	~PoolingLayer(){;}
-	
+
 	int init() {return 0;}
 
 	void infer()
@@ -100,8 +102,6 @@ public:
 			outputs_dims[i * 4 + 3] = inputs_dims[i * 4 + 3];
 		}
 	}
-
-	PoolingLayer(char* name):Layer(name){}
 
 	bool check_dimensions(){return true;}
 }

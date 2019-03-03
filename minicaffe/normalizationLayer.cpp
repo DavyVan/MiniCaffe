@@ -2,27 +2,29 @@
 #include "layer.h"
 #include "errors.h"
 
-class  NormalizationLayer : public Layer
+class  NormalizationLayer : public layer
 {
 private:
 	int nn;
 	float alpha, beta, kk;
 
 public:
-	NormalizationLayer()
+	NormalizationLayer(char *name)
 	{
 		nn = 5;
 		kk = 2.0;
 		alpha = 1e-4;
 		beta = 0.75;
+		Layer(name);
 	}
 
-	NormalizationLayer(float alpha_, float beta_, float kk_, int nn_)
+	NormalizationLayer(char *name, float alpha_, float beta_, float kk_, int nn_)
 	{
 		nn = nn_;
 		kk = kk_;
 		alpha = alpha_;
 		beta = beta_;
+		Layer(name);
 	}
 
 	~NormalizationLayer(){;}
