@@ -2,7 +2,7 @@
 #include "layer.h"
 #include "errors.h"
 
-class  NormalizationLayer : public layer
+class  NormalizationLayer : public Layer
 {
 private:
 	int nn;

@@ -2,7 +2,7 @@
 #include "layer.h"
 #include "errors.h"
 
-class PoolingLayer : public layer
+class PoolingLayer : public Layer
 {
 private:
 	int mask_x, mask_y, stride;
