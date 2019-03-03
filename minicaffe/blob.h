@@ -29,8 +29,8 @@ class Blob
         
         float* _data = NULL;        /**< Where actually the data stored. We now only consider float type. */
 
-        Layer* left_layer;          /**< Connected layer on the left. One blob can only have one left layer. */
-        Layer* right_layer;         /**< Connected layer on the right. One blob can only have one right layer. */
+        Layer* left_layer = NULL;   /**< Connected layer on the left. One blob can only have one left layer. */
+        Layer* right_layer = NULL;  /**< Connected layer on the right. One blob can only have one right layer. */
 
         /***
          * @brief Constructor. Call this when you don't know the size of blob
@@ -38,7 +38,7 @@ class Blob
          * @param name      Name of blob.
          * @param sizeofEle sizeof element. Default is float(4)
          */
-        Blob(char* name, int sizeofEle=4);
+        Blob(const char* name, int sizeofEle=4);
 
         /***
          * @brief Constructor. Call this when you are aware of each dimensions of blob
@@ -51,7 +51,7 @@ class Blob
          * @param sizeofEle Size of each element, see @Blob::sizeofEle.
          * 
          */
-        Blob(char* name, int batchSize, int x, int y, int z, int sizeofEle=4);
+        Blob(const char* name, int batchSize, int x, int y, int z, int sizeofEle=4);
 
         /***
          * @brief No-param constructor.

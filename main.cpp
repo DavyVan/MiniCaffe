@@ -3,6 +3,7 @@
 
 int main()
 {
+    // TODO: for input layer, must assign "data" before "laber"
     Blob blob = Blob();
     blob.x = 2;
     blob.y = 3;

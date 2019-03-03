@@ -15,7 +15,8 @@ public:
     int init(){return 0;}
     void infer(){}
     void bp(){}
-    void get_outputs_dimension(int inputs_dims[], int outputs_dims[]){}
+    void get_outputs_dimensions(int inputs_dims[], const int numInputs, int outputs_dims[], const int numOutputs){}
+    bool check_dimensions(){return true;}
 };
 
 TEST(LayerTest, constructor)

@@ -8,7 +8,7 @@
 #include<cstring>
 #include "util.h"
 
-void alloc_and_strcpy(char** dst, char* src)
+void alloc_and_strcpy(char** dst, const char* src)
 {
     *dst = new char[strlen(src)];
     strcpy(*dst, src);

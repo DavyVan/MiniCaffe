@@ -5,4 +5,4 @@
  * @date 01/Mar/2019
  */
 
-void alloc_and_strcpy(char**dst, char* src);
+void alloc_and_strcpy(char**dst, const char* src);

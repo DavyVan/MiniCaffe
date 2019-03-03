@@ -14,7 +14,7 @@ Layer::Layer(char* name)
     alloc_and_strcpy(&(this->name), name);
 }
 
-int Layer::add_to_net(Net* net, const char* lefts[], const char* rights[])
+int Layer::add_to_net(Net* net, const char* lefts[], const int numLefts, const char* rights[], const int numRights)
 {
-    return net->add_layer(this, lefts, rights);
+    return net->add_layer(this, lefts, numLefts, rights, numRights);
 }

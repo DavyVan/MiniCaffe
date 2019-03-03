@@ -11,13 +11,13 @@
 #include "util.h"
 #include "errors.h"
 
-Blob::Blob(char* name, int sizeofEle)
+Blob::Blob(const char* name, int sizeofEle)
     : sizeofEle(sizeofEle)
 {
     alloc_and_strcpy(&(this->name), name);
 }
 
-Blob::Blob(char* name, int batchSize, int x, int y, int z, int sizeofEle)
+Blob::Blob(const char* name, int batchSize, int x, int y, int z, int sizeofEle)
     : batchSize(batchSize), x(x), y(y), z(z), sizeofEle(sizeofEle)
 {
     alloc_and_strcpy(&(this->name), name);

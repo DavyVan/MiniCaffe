@@ -19,8 +19,8 @@ class Layer;
 class Net
 {
     public:
-        Net();
-        ~Net();
+        // Net();
+        // ~Net();
 
         /***
          * @brief Initialize neural network before running.
@@ -46,14 +46,17 @@ class Net
          * @brief Add new layer to this net.
          * This function will create necessary blobs to connect layers. It will firstly check the tail pointer by lefts' name and then search the net if not match.
          * If any designated lefts do not exist, function will report and abort. If any right blob has the same name as existed blob, report and abort.
+         * NOTICE: Some limitations apply, please see README
          * 
          * @param layer     The layer to be added to this net.
          * @param lefts     The name set of left blobs.
+         * @param numLefts  The number of left blobs.
          * @param rights    The name set of right blobs.
+         * @param numRights The number of right blobs.
          * 
          * @return The error code.
          */
-        int add_layer(Layer* layer, const char* lefts[], const char* rights[]);
+        int add_layer(Layer* layer, const char* lefts[], const int numLefts, const char* rights[], const int numRights);
     
     private:
         vector<Layer*> layers;
