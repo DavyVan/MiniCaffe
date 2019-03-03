@@ -1,0 +1,105 @@
+/***
+ * @file net.cpp
+ * @author Quan Fan
+ * @brief Implementation of Net class
+ * @date 01/Mar/2019
+ */
+
+#include <cstring>
+#include <vector>
+#include <cstdio>
+#include "net.h"
+#include "errors.h"
+#include "layer.h"
+
+int Net::add_layer(Layer* layer, const char* lefts[], const int numLefts, const char* rights[], const int numRights)
+{
+    // Do some checks
+    vector<Blob*> leftBlobExisted;  // the left blob to be connect with current layer;
+
+    // if this is the first layer (input layer), add this layer to net::genesis
+    if (numLefts == 0)
+        genesis.push_back(layer);
+
+    // For each left in lefts[], do checks
+    for (int iLefts = 0; iLefts < numLefts; iLefts++)
+    {
+        bool isOK = false;
+        int numTail = tail.size();
+        // printf("tail - %s:", layer->name);
+        // for (int i = 0; i < tail.size(); i++)
+        //     printf("%s", tail[i]->name);
+        // printf("\n");
+
+        // Check lefts with tail
+        for (int iTail = 0; iTail < numTail; iTail++)
+        {
+            if (strcmp(tail[iTail]->name, lefts[iLefts]) == 0)
+            {
+                leftBlobExisted.push_back(tail[iTail]);
+                layer->left_blobs.push_back(tail[iTail]);   // Add reference to current layer
+                tail.erase(tail.begin() + iTail);   // Delete used left blob from tail. Layer only use left once.
+                isOK = true;
+                break;
+            }
+        }
+
+        // TODO: we now only consider tail, if not match, then abort.
+        if (isOK == false && numLefts != 0)  // No match
+        {
+            print_err_str(LEFT_NOT_MATCH);
+            return LEFT_NOT_MATCH;
+        }
+        isOK = false;
+
+        // Check right with all exist TODO: we will be sure no name can show up twice manually.
+    }
+    // Check passed.
+    // printf("leftBlockExisted - %s:", layer->name);
+    // for(int i = 0; i < leftBlobExisted.size(); i++)
+    //     printf("%s", leftBlobExisted[i]->name);
+    // printf("\n");
+
+    // Decide right blobs dimensions.
+    // int inputDims[numLefts * 4] = {0};
+    int* inputDims = new int[numLefts * 4];
+    // int outputDims[numRights * 4] = {0};
+    int* outputDims = new int[numRights * 4];
+    for (int i = 0; i < numLefts; i++)
+    {
+        inputDims[i * 4 + 0] = leftBlobExisted[i]->batchSize;
+        inputDims[i * 4 + 1] = leftBlobExisted[i]->x;
+        inputDims[i * 4 + 2] = leftBlobExisted[i]->y;
+        inputDims[i * 4 + 3] = leftBlobExisted[i]->z;
+    }
+    layer->get_outputs_dimensions(inputDims, numLefts, outputDims, numRights);
+
+    // Create right blob instances
+    for (int i = 0; i < numRights; i++)     // for each right blob
+    {
+        // create
+        Blob *b = new Blob(rights[i], outputDims[i*4 + 0], outputDims[i*4 + 1], outputDims[i*4 + 2], outputDims[i*4 + 3], 4);
+        // add current layer to new blob::left_layer
+        b->left_layer = layer;
+        // add new blob to current layer
+        layer->right_blobs.push_back(b);
+        // add new blob to net::blobs
+        blobs.push_back(b);
+        // add new blob to net::tail
+        tail.push_back(b);
+        // TODO: If we search for left in blobs rather than tail, then we can support many-to-many relation?
+    }
+
+    // add current layer to left blobs
+    if (numLefts != 0)
+    {
+        for (int iLeft = 0; iLeft < numLefts; iLeft++)
+        {
+            leftBlobExisted[iLeft]->right_layer = layer;
+        }
+    }
+
+    // add current layer to net
+    layers.push_back(layer);
+    return 0;
+}
