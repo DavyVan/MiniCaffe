@@ -100,7 +100,5 @@ public:
 		}
 	}
 
-	NormalizationLayer(char* name):Layer(name){}
-
 	bool check_dimensions(){return true;}
 }
