@@ -1,37 +1,40 @@
-#include "net.h"
-#include "layer.h"
-#include "errors.h"
+#include "normalization.h"
 
-class  NormalizationLayer : public layer
+NormalizationLayer::NormalizationLayer()
 {
-private:
-	int nn;
-	float alpha, beta, kk;
+	nn = 5;
+	kk = 2.0;
+	alpha = 1e-4;
+	beta = 0.75;
+	Layer("undefined");
+}
 
-public:
-	NormalizationLayer(char *name)
-	{
-		nn = 5;
-		kk = 2.0;
-		alpha = 1e-4;
-		beta = 0.75;
-		Layer(name);
-	}
+NormalizationLayer::NormalizationLayer(char *name)
+{
+	nn = 5;
+	kk = 2.0;
+	alpha = 1e-4;
+	beta = 0.75;
+	Layer(name);
+}
 
-	NormalizationLayer(char *name, float alpha_, float beta_, float kk_, int nn_)
-	{
-		nn = nn_;
-		kk = kk_;
-		alpha = alpha_;
-		beta = beta_;
-		Layer(name);
-	}
+NormalizationLayer::NormalizationLayer(char *name, float alpha_, float beta_, float kk_, int nn_)
+{
+	nn = nn_;
+	kk = kk_;
+	alpha = alpha_;
+	beta = beta_;
+	Layer(name);
+}
 
-	~NormalizationLayer(){;}
+NormalizationLayer::~NormalizationLayer()
+{
+	;
+}
 
-	int init() {return 0;}
+int NormalizationLayer::init() {return 0;}
 
-	void infer()
+void NormalizationLayer::infer()
 	{
 		int curr_idx;
 		int i, j, k, t;
@@ -72,7 +75,7 @@ public:
 		}
 	}
 
-	void bp()
+void NormalizationLayer::bp()
 	{
 		int i;
 		int curr_idx;
@@ -88,7 +91,7 @@ public:
 		}
 	}
 
-	void get_outputs_dimensions(int inputs_dims[], const int numInputs, int outputs_dims[], const int numOutputs)
+void NormalizationLayer::get_outputs_dimensions(int inputs_dims[], const int numInputs, int outputs_dims[], const int numOutputs)
 	{
 		int i;
 		for (i = 0; i < numOutputs; i++)
@@ -100,5 +103,7 @@ public:
 		}
 	}
 
-	bool check_dimensions(){return true;}
-}
+bool NormalizationLayer::check_dimensions(){return true;}
+
+
+
