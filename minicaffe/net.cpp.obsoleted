@@ -51,9 +51,10 @@ int Net::add_layer(Layer* layer, const char* lefts[], const int numLefts, const 
             return LEFT_NOT_MATCH;
         }
         isOK = false;
-
-        // Check right with all exist TODO: we will be sure no name can show up twice manually.
     }
+    
+    // No check for repeated names in rights. We will be sure no name can show up twice manually.
+
     // Check passed.
     // printf("leftBlockExisted - %s:", layer->name);
     // for(int i = 0; i < leftBlobExisted.size(); i++)
