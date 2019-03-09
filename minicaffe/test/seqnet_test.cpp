@@ -142,10 +142,15 @@ TEST(SeqNetTest, add_layer_3layers)
 TEST(SeqNetTest, get_blob_id_by_name)
 {
     SeqNet net = SeqNet();
-    net.blobs.push_back(&Blob("b1"));
-    net.blobs.push_back(&Blob("b2"));
-    net.blobs.push_back(&Blob("b3"));
-    net.blobs.push_back(&Blob("b4"));
+    Blob b1 = Blob("b1");
+    Blob b2 = Blob("b2");
+    Blob b3 = Blob("b3");
+    Blob b4 = Blob("b4");
+
+    net.blobs.push_back(&b1);
+    net.blobs.push_back(&b2);
+    net.blobs.push_back(&b3);
+    net.blobs.push_back(&b4);
 
     EXPECT_EQ(0, net.get_blob_id_by_name("b1"));
     EXPECT_EQ(1, net.get_blob_id_by_name("b2"));
