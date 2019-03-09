@@ -5,8 +5,8 @@ branches:
   only:
     - master
     - fq-dev
+    - yz-branch
 script:
-  - git clone https://github.com/DavyVan/UCR-CS217-FinalProject.git
   - git submodule init
   - git submodule update
   - cd minicaffe/build
