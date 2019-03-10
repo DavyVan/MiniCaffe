@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.11)
 
 project(minicaffe_test)
-
+add_compile_options(-std=c++11)
 execute_process(COMMAND mkdir build
   RESULT_VARIABLE result
   WORKING_DIRECTORY ../third_party/googletest/googletest )

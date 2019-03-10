@@ -29,7 +29,7 @@ Blob::Blob()
     y = 0;
     z = 0;
     sizeofEle = 4;
-    name = "undefined";
+    name = (char*)"undefined";
 }
 
 Blob::~Blob()
@@ -40,7 +40,7 @@ Blob::~Blob()
 
 int Blob::get_ele_num()
 {
-    return x*y*z;
+    return batchSize*x*y*z;
 }
 
 int Blob::init()

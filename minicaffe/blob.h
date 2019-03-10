@@ -26,7 +26,7 @@ class Blob
         int y;                      /**< y dimension. Blob describes a 3D matrix. This is the 3rd dimension of blob*/
         int z;                      /**< z dimension. Blob describes a 3D matrix. This is the 4th dimension of blob */
         int sizeofEle;              /**< Size in bytes of each element. */
-        
+
         float* _data = NULL;        /**< Where actually the data stored. We now only consider float type. */
 
         Layer* left_layer = NULL;   /**< Connected layer on the left. One blob can only have one left layer. */
