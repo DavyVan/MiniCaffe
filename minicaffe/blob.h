@@ -75,6 +75,7 @@ class Blob
          * @return Exit code
          */
         int init();
+        Blob(const Blob &rhs);
 };
 
 #endif

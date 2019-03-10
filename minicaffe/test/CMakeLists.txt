@@ -25,10 +25,14 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 # Add googletest directly to our build. This defines
 # the gtest and gtest_main targets.
 add_subdirectory(../third_party/googletest/googletest
-                 ../third_party/googletest/googletest/build
-                 EXCLUDE_FROM_ALL)
+                 ../third_party/googletest/googletest/build)
 
 file(GLOB TEST_SRC_FILES "*.cpp")
+if(MSVC)
+  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /D TEST_ENABLED")
+else()
+  add_compile_options(-DTEST_ENABLED)
+endif()
 add_executable(test ${TEST_SRC_FILES})
 target_link_libraries(test minicaffe gtest_main)
 

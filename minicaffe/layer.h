@@ -9,7 +9,7 @@
 #define _LAYER_H_
 
 #include <vector>
-#include "net.h"
+#include "seqnet.h"
 #include "blob.h"
 
 using namespace std;
@@ -23,14 +23,15 @@ class Layer
     public:
         char* name;                       /**< The name of this layer. */
 
-        vector<Blob*> left_blobs;         /**< Multiple input/output blobs. Left means input for inference and output for bp. */
-        vector<Blob*> right_blobs;        /**< Multiple output/output blobs. Right means output for inference and input for bp.*/
+        // Obsoleted @3/8/2019
+        // vector<Blob*> left_blobs;         /**< Multiple input/output blobs. Left means input for inference and output for bp. */
+        // vector<Blob*> right_blobs;        /**< Multiple output/output blobs. Right means output for inference and input for bp.*/
 
         virtual int init()=0;
 
-        virtual void infer()=0;
+        virtual void infer(vector<Blob*> lefts, vector<Blob*> rights)=0;
 
-        virtual void bp()=0;
+        virtual void bp(vector<Blob*> lefts, vector<Blob*> rights)=0;
 
         /***
          * @brief Calculate the outputs' dimensions given inputs' dimensions.

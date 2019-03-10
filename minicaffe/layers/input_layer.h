@@ -15,7 +15,11 @@ class InputLayer : public Layer
 public:
     InputLayer(char* name);
 
-    void infer();
+    void infer(vector<Blob*> lefts, vector<Blob*> rights);
+    void bp(vector<Blob*> lefts, vector<Blob*> rights);
+    void get_outputs_dimensions(int inputs_dims[], const int numInputs, int outputs_dims[], const int numOutputs);
+    bool check_dimensions();
+    int init();
 
 };
 

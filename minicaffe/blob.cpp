@@ -63,3 +63,11 @@ int Blob::init()
 
     return 0;
 }
+
+Blob::Blob(const Blob &rhs)
+        : batchSize(rhs.batchSize), x(rhs.x), y(rhs.y), z(rhs.z), sizeofEle(rhs.sizeofEle){
+    alloc_and_strcpy(&(this->name), rhs.name);
+    this->init();
+    memcpy(this->_data,rhs._data,get_ele_num()*sizeofEle);
+
+}
