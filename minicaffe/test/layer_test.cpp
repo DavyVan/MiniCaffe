@@ -13,8 +13,8 @@ class testLayer : public Layer
 public:
     testLayer(char* name):Layer(name){}
     int init(){return 0;}
-    void infer(){}
-    void bp(){}
+    void infer(vector<Blob*> lefts, vector<Blob*> rights){}
+    void bp(vector<Blob*> lefts, vector<Blob*> rights){}
     void get_outputs_dimensions(int inputs_dims[], const int numInputs, int outputs_dims[], const int numOutputs){}
     bool check_dimensions(){return true;}
 };
