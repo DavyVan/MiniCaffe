@@ -29,7 +29,7 @@ PoolingLayer::~PoolingLayer()
 
 int PoolingLayer::init() {return 0;}
 
-void PoolingLayer::infer()
+void PoolingLayer::infer(vector<Blob*> left_blobs, vector<Blob*> right_blobs)
 {
 	int numInputs = left_blobs.size();
 	
@@ -97,7 +97,7 @@ void PoolingLayer::infer()
 }
 	
 
-void PoolingLayer::bp()
+void PoolingLayer::bp(vector<Blob*> left_blobs, vector<Blob*> right_blobs)
 {
 	int i;
 	int curr_idx;

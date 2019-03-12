@@ -2,7 +2,7 @@
 #define _NL_H_
 	
 #include <cstdlib>
-#include "net.h"
+//#include "net.h"
 #include "layer.h"
 #include "errors.h"
 	
@@ -19,8 +19,8 @@ public:
 	~PoolingLayer();
 	
 	int init();
-	void infer();
-	void bp();
+	void infer(vector<Blob*> left_blobs, vector<Blob*> right_blobs);
+	void bp(vector<Blob*> left_blobs, vector<Blob*> right_blobs);
 	void get_outputs_dimensions(int inputs_dims[], const int numInputs, int outputs_dims[], const int numOutputs);
 	bool check_dimensions();
 };
