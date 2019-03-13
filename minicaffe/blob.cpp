@@ -29,7 +29,7 @@ Blob::Blob()
     y = 0;
     z = 0;
     sizeofEle = 4;
-    name = "undefined";
+    name = (char*)"undefined";
 }
 
 Blob::~Blob()
@@ -40,7 +40,9 @@ Blob::~Blob()
 
 int Blob::get_ele_num()
 {
-    return x*y*z*batchSize;
+
+    return batchSize*x*y*z;
+
 }
 
 int Blob::init()
@@ -62,4 +64,12 @@ int Blob::init()
     //TODO: Initial value?
 
     return 0;
+}
+
+Blob::Blob(const Blob &rhs)
+        : batchSize(rhs.batchSize), x(rhs.x), y(rhs.y), z(rhs.z), sizeofEle(rhs.sizeofEle){
+    alloc_and_strcpy(&(this->name), rhs.name);
+    this->init();
+    memcpy(this->_data,rhs._data,get_ele_num()*sizeofEle);
+
 }

@@ -1,11 +1,14 @@
 language: cpp
 os:
   - linux
+dist:
+  - xenial
 branches:
   only:
     - master
     - fq-dev
     - yz-branch
+    - mc-dev
 script:
   - git submodule init
   - git submodule update
