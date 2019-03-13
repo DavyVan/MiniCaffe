@@ -52,15 +52,16 @@ void NormalizationLayer::infer(vector<Blob*> left_blobs, vector<Blob*> right_blo
 
 	int batch_size = left_blobs[0]->batchSize;
 	int ele_num = left_blobs[0]->get_ele_num();
+	float *matrix_in = NULL, *matrix_out = NULL;
 
-	for (curr_idx = 0; curr_idx < numInputs; curr_idx++)
+	in_x = left_blobs[0]->x;
+	in_y = left_blobs[0]->y;
+	in_z = left_blobs[0]->z;
+
+	for (curr_idx = 0; curr_idx < batch_size; curr_idx++)
 	{
-		float *matrix_in = left_blobs[0]->_data + batch_size * ele_num;
-		float *matrix_out = right_blobs[0]->_data + batch_size * ele_num;
-
-		in_x = left_blobs[0]->x;
-		in_y = left_blobs[0]->y;
-		in_z = left_blobs[0]->z;
+		matrix_in = left_blobs[0]->_data + curr_idx * ele_num / batch_size;
+		matrix_out = right_blobs[0]->_data + curr_idx * ele_num / batch_size;
 
 		for (k = 0; k < in_z; k++)
 		{
@@ -83,6 +84,9 @@ void NormalizationLayer::infer(vector<Blob*> left_blobs, vector<Blob*> right_blo
 			}
 		}
 	}
+
+	matrix_in = NULL;
+	matrix_out = NULL;
 }
 
 void NormalizationLayer::bp(vector<Blob*> left_blobs, vector<Blob*> right_blobs)
@@ -110,16 +114,16 @@ void NormalizationLayer::bp(vector<Blob*> left_blobs, vector<Blob*> right_blobs)
 }
 
 void NormalizationLayer::get_outputs_dimensions(int inputs_dims[], const int numInputs, int outputs_dims[], const int numOutputs)
+{
+	int i;
+	for (i = 0; i < numOutputs; i++)
 	{
-		int i;
-		for (i = 0; i < numOutputs; i++)
-		{
-			outputs_dims[i * 4 + 0] = inputs_dims[i * 4 + 0];
-			outputs_dims[i * 4 + 1] = inputs_dims[i * 4 + 1];
-			outputs_dims[i * 4 + 2] = inputs_dims[i * 4 + 2];
-			outputs_dims[i * 4 + 3] = inputs_dims[i * 4 + 3];
-		}
+		outputs_dims[i * 4 + 0] = inputs_dims[i * 4 + 0];
+		outputs_dims[i * 4 + 1] = inputs_dims[i * 4 + 1];
+		outputs_dims[i * 4 + 2] = inputs_dims[i * 4 + 2];
+		outputs_dims[i * 4 + 3] = inputs_dims[i * 4 + 3];
 	}
+}
 
 bool NormalizationLayer::check_dimensions(){return true;}
 
