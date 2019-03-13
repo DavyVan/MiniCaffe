@@ -9,9 +9,9 @@
 #include "errors.h"
 
 char* err_str[] = {
-    "Succeed.",                                          // 0
-    "Blobs with any dimension that equals to zero",      // 1
-    "Expected left blobs don't match any existed blob."  // 2
+        (char*)"Succeed.",                                          // 0
+        (char*)"Blobs with any dimension that equals to zero",      // 1
+        (char*)"Expected left blobs don't match any existed blob."  // 2
 };
 
 char* get_err_str(int _errno)
