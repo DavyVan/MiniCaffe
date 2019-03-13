@@ -5,6 +5,7 @@
 //#include "net.h"
 #include "layer.h"
 #include "errors.h"
+#include "util.h"
 
 class NormalizationLayer : public Layer
 {
