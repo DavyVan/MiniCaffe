@@ -31,27 +31,34 @@ int random_matrix(float *A, int eleNum)
 	return -2;
 }
 
-int print_matrix(float *A, int x, int y, int z)
+int print_matrix(float *A, int batch_size, int x, int y, int z)
 {
 	if (A == NULL) return -1;
-	float *tmp_ptr = NULL;
-	unsigned int i, j, k;
+	float *tmp_ptr = NULL, *batch_ptr = NULL;
+	unsigned int i, j, k, curr_idx;
 	
-	for (k = 0; k < z; k++)
+	for (curr_idx = 0; curr_idx < batch_size; curr_idx++)
 	{
-		tmp_ptr = A + x * y * k;
-		printf("Layer %d\n", k);
-		for (i = 0; i < y; i++)
-		{	
-			for (j = 0; (tmp_ptr + i * x + j) && (j < x); j++)
-			{
-				printf("  %.2f  ", *(tmp_ptr + i * x + j));
+		batch_ptr = A + curr_idx * x * y * z;
+		printf("BATCH %d :\n", curr_idx);
+		for (k = 0; k < z; k++)
+		{
+			tmp_ptr = batch_ptr + x * y * k;
+			printf("Layer %d\n", k);
+			for (i = 0; i < y; i++)
+			{	
+				for (j = 0; (tmp_ptr + i * x + j) && (j < x); j++)
+				{
+					printf("  %.2f  ", *(tmp_ptr + i * x + j));
+				}
+				printf("\n");
 			}
-			printf("\n");
 		}
 	}
 
-	if (k == z &&  i == y && j == x) return 0;
+	tmp_ptr = NULL, batch_ptr = NULL;
+
+	if (k == z &&  i == y && j == x && curr_idx == batch_size) return 0;
 	return -2;
 }
 
@@ -64,6 +71,7 @@ int print_coord_matrix(coord_ptr A, int batch_size, int x, int y, int z)
 	for (curr_idx = 0; curr_idx < batch_size; curr_idx++)
 	{
 		batch_ptr = A + curr_idx * x * y * z;
+		printf("BATCH %d :\n", curr_idx);
 		for (k = 0; k < z; k++)
 		{
 			tmp_ptr = batch_ptr + x * y * k;

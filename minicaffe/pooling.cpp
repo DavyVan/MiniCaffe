@@ -73,9 +73,9 @@ void PoolingLayer::infer(vector<Blob*> left_blobs, vector<Blob*> right_blobs)
 //	printf("mask_x = %d, mask_y = %d, stride = %d\n", mask_x, mask_y, stride);
 	for (curr_idx = 0; curr_idx < batch_size; curr_idx++)
 	{
-		matrix_in = left_blobs[0]->_data + curr_idx * ele_num;
-		matrix_out = right_blobs[0]->_data + curr_idx * out_ele;
-		tmp_coord = tmp_space + curr_idx * out_ele;
+		matrix_in = left_blobs[0]->_data + curr_idx * ele_num / batch_size;
+		matrix_out = right_blobs[0]->_data + curr_idx * out_ele / batch_size;
+		tmp_coord = tmp_space + curr_idx * out_ele / batch_size;
 
 //		printf("curr_idx = %d\n", curr_idx);
 		for (k = 0; k < in_z; k++)
@@ -96,6 +96,7 @@ void PoolingLayer::infer(vector<Blob*> left_blobs, vector<Blob*> right_blobs)
 							if (ii < in_y && jj < in_x)
 							{
 								curr_value = matrix_in[(k * in_y + ii) * in_x + jj];
+//								printf("curr_value = %f, ", curr_value);
 							}
 							else
 							{
@@ -114,7 +115,7 @@ void PoolingLayer::infer(vector<Blob*> left_blobs, vector<Blob*> right_blobs)
 //					printf("k = %d, y = %d, inner_y = %d, x = %d, inner_x = %d, sum = %d, \n",k, y, inner_y, x, inner_x, (k * y + inner_y) * x + inner_x);
 					if (inner_x < x && inner_y < y)	
 					{
-//						printf("k = %d, y = %d, inner_y = %d, x = %d, inner_x = %d, sum = %d, \n",k, y, inner_y, x, inner_x, (k * y + inner_y) * x + inner_x);
+//						printf("k = %d, y = %d, inner_y = %d, x = %d, inner_x = %d, sum = %d, curr_max = %f\n",k, y, inner_y, x, inner_x, (k * y + inner_y) * x + inner_x, curr_max);
 						matrix_out[(k * y + inner_y) * x + inner_x] = curr_max;
 						tmp_coord[(k * y + inner_y) * x + inner_x].row = max_row;
 						tmp_coord[(k * y + inner_y) * x + inner_x].col = max_col;
@@ -166,9 +167,9 @@ void PoolingLayer::bp(vector<Blob*> left_blobs, vector<Blob*> right_blobs)
 
 	for (curr_idx = 0; curr_idx < batch_size; curr_idx++)
 	{
-		matrix_in = right_blobs[0]->_data + curr_idx * ele_num;
-		matrix_out = left_blobs[0]->_data + curr_idx * out_ele;
-		tmp_coord = tmp_space + curr_idx * out_ele;
+		matrix_in = right_blobs[0]->_data + curr_idx * ele_num / batch_size;
+		matrix_out = left_blobs[0]->_data + curr_idx * out_ele / batch_size;
+		tmp_coord = tmp_space + curr_idx * ele_num / batch_size;
 
 		for (k = 0; k < z; k++)
 		{
@@ -189,6 +190,7 @@ void PoolingLayer::bp(vector<Blob*> left_blobs, vector<Blob*> right_blobs)
 				{
 					int inner_x = tmp_coord[(k * in_y + i) * in_x + j].col;
 					int inner_y = tmp_coord[(k * in_y + i) * in_x + j].row;
+//					printf("recover batch_size = %d, row = %d, col = %d, layer = %d, sum = %d\n", curr_idx, inner_y, inner_x, k, (k*in_y +i)*in_x + j);
 					matrix_out[(k * y + inner_y) * x + inner_x] = matrix_in[(k * in_y + i) * in_x + j];
 				}
 			}

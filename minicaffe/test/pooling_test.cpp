@@ -4,7 +4,7 @@
 TEST(PoolingLayerTest, infer_bp)
 {
 //	printf("\n*********start pooling infer test*********\n");
-	int in_x, in_y, in_z, batch_size = 1;
+	int in_x, in_y, in_z, batch_size = 2;
 	in_x = 11, in_y = 11, in_z = 3;
 
 	Blob b1 = Blob("b1", batch_size, in_x, in_y, in_z, sizeof(float));
@@ -15,12 +15,15 @@ TEST(PoolingLayerTest, infer_bp)
 	int err = random_matrix(b1._data, b1.get_ele_num());
 	ASSERT_EQ(0, err);
 /*
-	err = print_matrix(b1._data, in_x, in_y, in_z);
+	printf("b1.get_ele_num() = %d\n", b1.get_ele_num());
+
+	err = print_matrix(b1._data, batch_size, in_x, in_y, in_z);
 	if (err != 0)
 	{
 		printf("%d\n", err);
 	}
-*/	
+	ASSERT_EQ(0, err);
+*/
 	PoolingLayer testPoolingLayer = PoolingLayer("test");
 	vector<Blob*> left_blobs, right_blobs, bp_left_blobs;
 
@@ -30,7 +33,7 @@ TEST(PoolingLayerTest, infer_bp)
 
 	testPoolingLayer.get_outputs_dimensions(inputs_dims, 1, outputs_dims, 1);
 	out_x = outputs_dims[1], out_y = outputs_dims[2], out_z = outputs_dims[3];
-	int i;
+//	int i;
 /*
 	for (i = 0; i < 4; i++)
 	{
@@ -50,24 +53,26 @@ TEST(PoolingLayerTest, infer_bp)
 	bp_left_blobs.push_back(&b_bp);
 
 	testPoolingLayer.infer(left_blobs, right_blobs);
+/*
+	err = print_matrix(right_blobs[0]->_data, batch_size, out_x, out_y, out_z);
+	if (err != 0)
+	{
+		printf("%d\n", err);
+	}
 
-//	err = print_matrix(right_blobs[0]->_data, out_x, out_y, out_z);
-//	if (err != 0)
-//	{
-//		printf("%d\n", err);
-//	}
-
-//	err = print_coord_matrix(testPoolingLayer.tmp_space, batch_size, out_x, out_y, out_z);
-//	if (err != 0)
-//	{
-//		printf("%d\n", err);
-//	}
-
+	err = print_coord_matrix(testPoolingLayer.tmp_space, batch_size, out_x, out_y, out_z);
+	if (err != 0)
+	{
+		printf("%d\n", err);
+	}
+*/
 	testPoolingLayer.bp(bp_left_blobs, right_blobs);
-//	err = print_matrix(bp_left_blobs[0]->_data, in_x, in_y, in_z);
-//	if (err != 0)
-//	{
-//		printf("%d\n", err);
-//	}
-//	printf("\n*********finish pooling infer test*********\n");
+/*
+	err = print_matrix(bp_left_blobs[0]->_data, batch_size, in_x, in_y, in_z);
+	if (err != 0)
+	{
+		printf("%d\n", err);
+	}
+	printf("\n*********finish pooling infer test*********\n");
+*/
 }
