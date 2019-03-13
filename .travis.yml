@@ -1,8 +1,8 @@
 language: cpp
 os:
   - linux
-  dist:
-    - xenial
+dist:
+  - xenial
 branches:
   only:
     - master
