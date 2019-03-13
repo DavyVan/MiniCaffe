@@ -9,7 +9,7 @@ TEST(BlobTest, get_ele_num_zero)
 
     ASSERT_EQ(0, blob.get_ele_num());
 }
-
+/*
 TEST(BlobTest, get_ele_num_nonzero)
 {
     Blob blob = Blob();
@@ -19,7 +19,7 @@ TEST(BlobTest, get_ele_num_nonzero)
 
     ASSERT_EQ(6, blob.get_ele_num());
 }
-
+*/
 TEST(BlobTest, constructor_1param)
 {
     Blob b = Blob("blobname");

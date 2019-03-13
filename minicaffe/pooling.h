@@ -1,18 +1,20 @@
-#ifndef _NL_H_
-#define _NL_H_
+#ifndef _PL_H_
+#define _PL_H_
 	
 #include <cstdlib>
 //#include "net.h"
 #include "layer.h"
 #include "errors.h"
-	
+#include "util.h"
+
 class PoolingLayer : public Layer
 {
 public:
 	int mask_x;
 	int mask_y;
 	int stride;
-	
+	coord_ptr tmp_space;
+
 	PoolingLayer();
 	PoolingLayer(char *name);
 	PoolingLayer(char *name, int mask_x_, int mask_y_, int stride_);

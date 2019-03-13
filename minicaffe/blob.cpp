@@ -40,7 +40,7 @@ Blob::~Blob()
 
 int Blob::get_ele_num()
 {
-    return x*y*z;
+    return x*y*z*batchSize;
 }
 
 int Blob::init()
