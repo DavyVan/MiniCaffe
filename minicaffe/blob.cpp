@@ -33,7 +33,6 @@ Blob::Blob()
     sizeofEle = 4;
     alloc_and_strcpy(&(this->name), (char*)"undefined");
     _data=NULL;
-    //name = (char*)"undefined";
 }
 
 Blob::~Blob()
