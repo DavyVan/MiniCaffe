@@ -47,12 +47,10 @@ void ConvLayer::infer(std::vector<Blob*> lefts, std::vector<Blob*> rights){
     }
 }
 
-void ConvLayer::get_outputs_dimensions(int *inputs_dims, const int numInputs, int *&outputs_dims,
+void ConvLayer::get_outputs_dimensions(int *inputs_dims, const int numInputs, int *outputs_dims,
                                        const int numOutputs) {
-
-    delete[] outputs_dims;
-    outputs_dims=new int[4]{inputs_dims[0],out_width,out_height,out_channels};
-
+    int temp[4]{inputs_dims[0],out_width,out_height,out_channels};
+    memcpy(outputs_dims,&temp,4* sizeof(int));
 }
 
 bool ConvLayer::check_dimensions() {

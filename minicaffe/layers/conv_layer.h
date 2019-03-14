@@ -15,7 +15,7 @@ public:
 
     void infer(std::vector<Blob*> lefts, std::vector<Blob*> rights);
     void bp(std::vector<Blob*> lefts, std::vector<Blob*> rights);
-    void get_outputs_dimensions(int inputs_dims[], const int numInputs, int *&outputs_dims, const int numOutputs);
+    void get_outputs_dimensions(int inputs_dims[], const int numInputs, int outputs_dims[], const int numOutputs);
     bool check_dimensions();
     int init();
     Blob weights;

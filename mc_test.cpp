@@ -57,7 +57,7 @@ int main()
 
     ConvLayer conv((char*)"conv1",in_width,in_height,kernel_size,in_channels,out_channels,w_stride,h_stride);
     int* in_dim=new int[4]{in_batch,in_width,in_height,in_channels};
-    int* out_dim;
+    int* out_dim=new int[4];
     conv.get_outputs_dimensions(in_dim,1,out_dim,1);
 
     Blob in_blob("input",in_batch,in_width,in_height,in_channels);

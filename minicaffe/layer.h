@@ -41,7 +41,7 @@ class Layer
          * @param intputs_dims [in] Dimensions of input blobs. [batchSize0, x0, y0, z0, batchSize1, x1, y1, z1, ...] if more than one blob
          * @param outputs_dims [out] Dimensions of output blobs. It has the same format as @inputs_dims
          */
-        virtual void get_outputs_dimensions(int inputs_dims[], const int numInputs, int *&outputs_dims, const int numOutputs)=0;
+        virtual void get_outputs_dimensions(int inputs_dims[], const int numInputs, int outputs_dims[], const int numOutputs)=0;
 
         virtual bool check_dimensions()=0;
 
