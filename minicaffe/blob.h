@@ -9,6 +9,7 @@
 #define _BLOB_H_
 
 #include <cstdlib>
+#include <cstring>
 // #include "layer.h"
 
 class Layer;
@@ -20,7 +21,7 @@ class Layer;
 class Blob
 {
     public:
-        char* name;                 /**< Blob's name */
+        char* name=NULL;                 /**< Blob's name */
         int batchSize;              /**< Batch size that current blob contains. This is the 1st dimension of blob. */
         int x;                      /**< x dimension. Blob describes a 3D matrix. This is the 2nd dimension of blob*/
         int y;                      /**< y dimension. Blob describes a 3D matrix. This is the 3rd dimension of blob*/
@@ -75,7 +76,18 @@ class Blob
          * @return Exit code
          */
         int init();
+
         Blob(const Blob &rhs);
+
+        Blob operator=(const Blob&);
+
+        inline float* at(int batch_pos, int x_pos, int y_pos, int z_pos){
+            return &_data[batch_pos*(x*y*z)+x_pos*(y*z)+y_pos*(z)+z_pos];
+        }
+
+        inline void reset(){
+            memset(_data,0,get_ele_num()*sizeofEle);
+        }
 };
 
 #endif
