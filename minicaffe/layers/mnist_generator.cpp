@@ -68,10 +68,7 @@ std::vector<Blob> MnistGenerator::loadSample(int batchSize){
                 *(sample.at(i,x,y,1))=_images[offset+i][y*col_size+x];
             }
         }
-        //memcpy(&sample._data[i*row_size*col_size],_images[offset+i].data(),row_size*col_size);
-        //std::copy(_images[offset+i].begin(),_images[offset+i].end(),&sample._data[i*row_size*col_size]);
         label._data[i]=_labels[offset+i];
-        std::cout<<i<<" label: "<<_labels[offset+i]<<std::endl;
     }
     std::vector<Blob> ret;
     ret.push_back(sample);

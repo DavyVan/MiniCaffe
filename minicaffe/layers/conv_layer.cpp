@@ -13,8 +13,6 @@ ConvLayer::ConvLayer(char* name,int in_width, int in_height,int kernel_size, int
           out_channels(out_channels),
           w_stride(w_stride),
           h_stride(h_stride)
-//          weights("conv_weights",out_channels,in_channels,kernel_size,kernel_size),
-//          delta("conv_delta",out_channels,in_channels,kernel_size,kernel_size)
           {
     weights=Blob("conv_weights",out_channels,kernel_size,kernel_size,in_channels);
     delta=Blob("conv_delta",out_channels,kernel_size,kernel_size,in_channels);

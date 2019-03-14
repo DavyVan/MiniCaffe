@@ -15,14 +15,12 @@ Blob::Blob(const char* name, int sizeofEle)
     : sizeofEle(sizeofEle)
 {
     alloc_and_strcpy(&(this->name), name);
-    _data=NULL;
 }
 
 Blob::Blob(const char* name, int batchSize, int x, int y, int z, int sizeofEle)
     : batchSize(batchSize), x(x), y(y), z(z), sizeofEle(sizeofEle)
 {
     alloc_and_strcpy(&(this->name), name);
-    _data=NULL;
 }
 
 Blob::Blob()
@@ -32,7 +30,6 @@ Blob::Blob()
     z = 0;
     sizeofEle = 4;
     alloc_and_strcpy(&(this->name), (char*)"undefined");
-    _data=NULL;
 }
 
 Blob::~Blob()
@@ -61,7 +58,6 @@ int Blob::init()
 
     // Allocate memory space
     _data = new float[get_ele_num()*sizeofEle];
-           // (float*) malloc(get_ele_num()*sizeofEle);
 
     //TODO: Initial value?
 
