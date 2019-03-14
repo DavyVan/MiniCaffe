@@ -33,7 +33,4 @@ int main()
      */
 
 
-    MnistGenerator generator=MnistGenerator("../../train-images.idx3-ubyte","../../train-labels.idx1-ubyte");
-    std::vector<Blob> sample=generator.loadSample(32);
-    assert(sample[0].batchSize==32);
 }
