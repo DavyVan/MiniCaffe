@@ -15,6 +15,7 @@ int main()
 {
     // TODO: for input layer, must assign "data" before "laber"
     Blob blob = Blob();
+    blob.batchSize=1;
     blob.x = 2;
     blob.y = 3;
     blob.z = 4;
@@ -99,7 +100,7 @@ void print_blob( Blob &blob){
             cout<<"channel "<<channel<<endl;
             for(int y=0;y<blob.y;y++){
                 for(int x=0;x<blob.x;x++){
-                    cout<<*(blob.at(batch,x,y,channel))<<" ";
+                    cout<<blob(batch,x,y,channel)<<" ";
                 }
                 cout<<endl;
             }
@@ -117,7 +118,7 @@ void print_image( Blob &blob){
             cout<<"channel "<<channel<<endl;
             for(int y=0;y<blob.y;y++){
                 for(int x=0;x<blob.x;x++){
-                    if(!helper::float_eq(*(blob.at(batch,x,y,channel)),0))
+                    if(!helper::float_eq(blob(batch,x,y,channel),0))
                         cout<<".";
                     else
                         cout<<"o";
