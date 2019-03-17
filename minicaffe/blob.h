@@ -86,6 +86,9 @@ class Blob
         inline void reset(){
             memset(_data,0,get_ele_num()*sizeofEle);
         }
+        inline void free_data(){
+            delete [] _data;
+        }
 };
 
 #endif
