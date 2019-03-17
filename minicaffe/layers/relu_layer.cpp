@@ -21,4 +21,4 @@ void ReluLayer::get_outputs_dimensions(int *inputs_dims, const int numInputs, in
                                        const int numOutputs) {
     memcpy(outputs_dims,inputs_dims,4*numOutputs*sizeof(int));
 }
-int ReluLayer::init() {}
+int ReluLayer::init() {return 0;}

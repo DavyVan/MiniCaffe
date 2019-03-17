@@ -12,7 +12,7 @@
 class MnistGenerator {
 public:
 
-    std::vector<Blob> loadSample(int batchSize);
+    virtual std::vector<Blob> loadSample(int batchSize);
     int reset();
     MnistGenerator(std::string sampleFile,std::string labelFile);
 

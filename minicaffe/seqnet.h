@@ -13,7 +13,7 @@
 
 #include <vector>
 #include "blob.h"
-#include "generator.h"
+#include "layers/mnist_generator.h"
 
 #ifdef TEST_ENABLED
 #include "gtest/gtest_prod.h"
@@ -31,21 +31,21 @@ class SeqNet
          * @brief Non-arg constructor. Keep it for test.
          * 
          */
-        SeqNet();
+        SeqNet(int batchsize=32);
 
         /***
          * @brief Instantiate with generator.
          * 
          * @param generator The generator.
          */
-        SeqNet(Generator* generator);
+        SeqNet(MnistGenerator* generator, int batchsize=32);
 
         /***
          * @brief Change the data generator.
          * 
          * @param generator The generator.
          */
-        void update_generator(Generator* generator);
+        void update_generator(MnistGenerator* generator);
 
         /***
          * @brief Add new layer to this net.
@@ -65,30 +65,55 @@ class SeqNet
 
         /***
          * @brief Initialize neural network before running.
-         *        Initialization includes allocation of memory, and reset all the blobs or variables to proper values.
+         *        Call init() of each blob and layer.
          * 
          * @return The error code. 0 for normal.
          */
         int init();
 
+        /***
+         * @brief Do forward.
+         *        1. Reset all blobs
+         *        2. Generate a new batch of samples
+         *        3. Iterate each layer and call infer()
+         *          (a) find lefts and rights blobs
+         *          (b) call infer() 
+         */
         void infer();
 
+        /***
+         * @brief Do backward propagation
+         * 
+         */
         void bp();
 
         /***
          * @brief Training process consists of inference and BP.
+         *        Call infer() and bp()
          * 
          */
         void train();
 
-        Blob get_output(char* name);
+        /***
+         * @brief return a copy of the required blob.
+         * 
+         */
+        Blob* get_output(const char* name);
+
+        /***
+         * @brief Return the batchsize
+         * 
+         * @return int The batchsize
+         */
+        int static get_batchsize();
 
     private:
         vector<Layer*> layers;          /**< All layers, in the order of insertion and running */
         vector<Blob*> blobs;            /**< All blobs, in the order of insertion */
         vector<vector<Blob*>> lefts;    /**< lefts for each layer */
         vector<vector<Blob*>> rights;   /**< rights for each layer */
-        Generator* dataGenerator;
+        MnistGenerator* dataGenerator;
+        static int batchsize;
 
         /***
          * @brief As its name.
@@ -103,6 +128,8 @@ class SeqNet
         FRIEND_TEST(SeqNetTest, add_layer_1layer_0in2out);
         FRIEND_TEST(SeqNetTest, add_layer_3layers);
         FRIEND_TEST(SeqNetTest, get_blob_id_by_name);
+        FRIEND_TEST(SeqNetTest, infer);
+        FRIEND_TEST(SeqNetTest, bp);
 #endif
 };
 typedef SeqNet Net;

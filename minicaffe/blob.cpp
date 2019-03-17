@@ -7,6 +7,7 @@
 
 #include <cstring>
 #include <cstdlib>
+#include <cstdio>
 #include "blob.h"
 #include "util.h"
 #include "errors.h"
@@ -54,12 +55,14 @@ int Blob::init()
 
     // if blob has been already initialized
     if (_data != NULL)
-        return 0;     // TODO: may call reset() or throw an error
+    {
+        reset();
+        return 0; 
+    }
 
     // Allocate memory space
     _data = new float[get_ele_num()*sizeofEle];
-
-    //TODO: Initial value?
+    reset();
 
     return 0;
 }

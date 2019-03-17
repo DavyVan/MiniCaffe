@@ -1,13 +1,13 @@
 //
 // Created by mingchen on 3/9/19.
 //
-
 #include "mnist_generator.h"
 #include "../blob.h"
 #include <iostream>
 #include <assert.h>
 #include <cstring>
 #include <fstream>
+#include <algorithm>
 
 MnistGenerator::MnistGenerator(std::string sampleFile, std::string labelFile) {
     using namespace std;
