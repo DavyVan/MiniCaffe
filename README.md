@@ -63,6 +63,19 @@ mc-dev: [![Build Status](https://travis-ci.com/DavyVan/UCR-CS217-FinalProject.sv
     cmake ..
     cmake --build .     # Then find the final executable in [root dir]/build/
 
+## How to build on Tardis
+
+    git clone [url]
+    cd [root_dir]
+    git submodule init
+    git submodule update
+    cd build
+    export CXX=/act/gcc-5.1.0/bin/g++
+    export CC=/act/gcc-5.1.0/bin/gcc
+    cmake -D CMAKE_C_COMPILER=gcc CMAKE_CXX_COMPILER=g++ /curr_absolute_build_path/
+    cmake .. -DTEST_ENABLED=ON
+    cmake --build .     # Then find the final executable in [root dir]/build/
+
 ## Change log of master branch
 ### 3/8/2019
 * Added "yz-branch" to Travis CI
