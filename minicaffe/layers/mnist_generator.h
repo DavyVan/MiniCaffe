@@ -23,7 +23,7 @@ private:
     std::ifstream sampleFS;
     std::ifstream labelFS;
     void loadToMemory();
-    std::vector<std::vector<float>> _images;
+    std::vector<std::vector<float> > _images;
     std::vector<float> _labels;
     inline int to_int(char* buffer){
         return ((buffer[0] & 0xff) << 24) | ((buffer[1] & 0xff) << 16) |
