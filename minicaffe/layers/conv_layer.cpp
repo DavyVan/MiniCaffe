@@ -52,7 +52,7 @@ void ConvLayer::get_outputs_dimensions(int *inputs_dims, const int numInputs, in
 }
 
 bool ConvLayer::check_dimensions() {
-
+    return true;
 }
 void ConvLayer::bp(std::vector<Blob *> lefts, std::vector<Blob *> rights) {
     Blob input=*lefts[0];
@@ -81,5 +81,5 @@ void ConvLayer::bp(std::vector<Blob *> lefts, std::vector<Blob *> rights) {
 
 }
 int ConvLayer::init(){
-
+    return 0;
 }

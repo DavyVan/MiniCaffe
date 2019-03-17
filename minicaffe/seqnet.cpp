@@ -3,17 +3,21 @@
 #include "errors.h"
 #include "layer.h"
 
-SeqNet::SeqNet()
+int SeqNet::batchsize = 32;
+
+SeqNet::SeqNet(int batchsize)
 {
     dataGenerator = NULL;
+    this->batchsize = batchsize;
 }
 
-SeqNet::SeqNet(Generator* generator)
+SeqNet::SeqNet(MnistGenerator* generator, int batchsize)
 {
     dataGenerator = generator;
+    this->batchsize = batchsize;
 }
 
-void SeqNet::update_generator(Generator* generator)
+void SeqNet::update_generator(MnistGenerator* generator)
 {
     dataGenerator = generator;
 }
@@ -84,6 +88,79 @@ int SeqNet::add_layer(Layer* layer, const char* lefts[], const int numLefts, con
     delete inputDims;
     delete outputDims;
     return 0;
+}
+
+int SeqNet::init()
+{
+    int err = 0;
+
+    // TODO: Check dimensions. The function in each layer is not implemented yet.
+
+    // Call init() of all blobs
+    for (std::vector<Blob*>::iterator it = blobs.begin(); it != blobs.end(); it++)
+        err += (*it)->init();
+
+    // Call init() of all layers
+    for (std::vector<Layer*>::iterator it = layers.begin(); it != layers.end(); it++)
+        err += (*it)->init();
+
+    return err;
+}
+
+void SeqNet::infer()
+{
+    // Reset all blobs
+    for (std::vector<Blob*>::iterator it = blobs.begin(); it != blobs.end(); it++)
+        (*it)->reset();
+    
+    // Fetch a new batch of samples from Generator
+    if (dataGenerator == NULL)
+    {
+        printf("No data generator assigned.\n");
+        return;
+    }
+    std::vector<Blob> generated = dataGenerator->loadSample(batchsize);
+    std::vector<Blob*> generated_ptr;
+    for (std::vector<Blob>::iterator it = generated.begin(); it != generated.end(); it++)
+        generated_ptr.push_back(new Blob(*it));
+    lefts[0] = generated_ptr;
+
+    int n = layers.size();
+    for (int i = 0; i < n; i++)
+    {
+        layers[i]->infer(lefts[i], rights[i]);
+    }
+}
+
+void SeqNet::bp()
+{
+    int n = layers.size();
+    for (int i = n-1; i >= 0; i--)
+        layers[i]->bp(lefts[i], rights[i]);
+}
+
+void SeqNet::train()
+{
+    infer();
+    bp();
+}
+
+Blob* SeqNet::get_output(const char* name)
+{
+    int idx = get_blob_id_by_name(name);
+    if (idx == -1)
+    {
+        printf("Blob not found.\n");
+        return NULL;
+    }
+    
+    Blob* ret = new Blob(*blobs[idx]);
+    return ret;
+} 
+
+int SeqNet::get_batchsize()
+{
+    return batchsize;
 }
 
 int SeqNet::get_blob_id_by_name(const char *name)

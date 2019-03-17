@@ -9,6 +9,6 @@ TEST(MnistGeneratorTest,file_exist)
 {
     MnistGenerator generator=MnistGenerator("../../../train-images.idx3-ubyte","../../../train-labels.idx1-ubyte");
     std::vector<Blob> sample=generator.loadSample(32);
-    assert(sample[0].batchSize==32);
+    ASSERT_EQ(sample[0].batchSize, 32);
 
 }
