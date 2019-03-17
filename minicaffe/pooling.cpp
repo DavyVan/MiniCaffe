@@ -196,6 +196,9 @@ void PoolingLayer::bp(vector<Blob*> left_blobs, vector<Blob*> right_blobs)
 			}
 		}
 	}
+
+	free(tmp_space);
+	tmp_coord = NULL;
 	
 }
 	

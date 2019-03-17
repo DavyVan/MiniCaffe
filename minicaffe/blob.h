@@ -81,12 +81,13 @@ class Blob
 
         Blob operator=(const Blob&);
 
-        inline float* at(int batch_pos, int x_pos, int y_pos, int z_pos){
-            return &_data[batch_pos*(x*y*z)+x_pos*(y*z)+y_pos*(z)+z_pos];
-        }
+        float &operator()(int batch_pos,int x_pos, int y_pos, int z_pos);
 
         inline void reset(){
             memset(_data,0,get_ele_num()*sizeofEle);
+        }
+        inline void free_data(){
+            delete [] _data;
         }
 };
 

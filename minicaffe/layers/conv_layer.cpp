@@ -33,9 +33,9 @@ void ConvLayer::infer(std::vector<Blob*> lefts, std::vector<Blob*> rights){
                             for(int KernelY=0;KernelY<kernel_size;KernelY++){
                                 int InX=w_stride*OutX+KernelX;
                                 int InY=h_stride*OutY+KernelY;
-                                float kernelMulti=*(weights.at(OutChannel,KernelX,KernelY,InChannel));
-                                *(rights[0]->at(batch,OutX,OutY,OutChannel))+=
-                                        (*(lefts[0]->at(batch,InX,InY,InChannel)))*kernelMulti;
+                                float kernelMulti=weights(OutChannel,KernelX,KernelY,InChannel);
+                                (*rights[0])(batch,OutX,OutY,OutChannel)+=
+                                        (*lefts[0])(batch,InX,InY,InChannel)*kernelMulti;
                             }
                         }
                     }
@@ -52,7 +52,7 @@ void ConvLayer::get_outputs_dimensions(int *inputs_dims, const int numInputs, in
 }
 
 bool ConvLayer::check_dimensions() {
-
+    return true;
 }
 void ConvLayer::bp(std::vector<Blob *> lefts, std::vector<Blob *> rights) {
     Blob input=*lefts[0];
@@ -67,9 +67,9 @@ void ConvLayer::bp(std::vector<Blob *> lefts, std::vector<Blob *> rights) {
                             for(int KernelY=0;KernelY<kernel_size;KernelY++){
                                 int InX=w_stride*OutX+KernelX;
                                 int InY=h_stride*OutY+KernelY;
-                                float rightGra=*(weights.at(batch,OutX,OutY,OutChannel));
-                                *(delta.at(batch,KernelX,KernelY,InChannel))+=
-                                        (*(input.at(batch,InX,InY,InChannel)))*rightGra;
+                                float rightGra=weights(batch,OutX,OutY,OutChannel);
+                                delta(batch,KernelX,KernelY,InChannel)+=
+                                        input(batch,InX,InY,InChannel)*rightGra;
                             }
                         }
                     }
@@ -81,5 +81,5 @@ void ConvLayer::bp(std::vector<Blob *> lefts, std::vector<Blob *> rights) {
 
 }
 int ConvLayer::init(){
-
+    return 0;
 }

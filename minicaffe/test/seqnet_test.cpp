@@ -1,14 +1,102 @@
+/***
+ * @file seqnet_test.cpp
+ * @author Quan Fan
+ * @brief Test file of SeqNet
+ * @date 08/Mar/2019
+ */
+
 #include "gtest/gtest.h"
 #include "../seqnet.h"
 #include "../layer.h"
 #include "../errors.h"
+#include "../layers/mnist_generator.h"
 
 class TestLayerForSeqNet : public Layer
 {
 public:
     int init(){return 0;}
-    void infer(vector<Blob*> lefts, vector<Blob*> rights){}
-    void bp(vector<Blob*> lefts, vector<Blob*> rights){}
+    void infer(vector<Blob*> lefts, vector<Blob*> rights){
+        int numL = lefts.size();
+        int numR = rights.size();
+
+        if (numL < numR)
+        {
+            // copy left+1 to rights
+            Blob* l = lefts[0];
+            int elems = l->get_ele_num();
+            for (int i = 0; i < numR; i++)
+            {
+                for (int di = 0; di < elems; di++)
+                    rights[i]->_data[di] = l->_data[di] + 1;
+            }
+        }
+        else if (numL == numR)
+        {
+            // copy left+2 to rights accordingly
+            for (int i = 0; i < numL; i++)
+            {
+                int elems = lefts[0]->get_ele_num();
+                for (int di = 0; di < elems; di++)
+                    rights[i]->_data[di] = lefts[i]->_data[di] + 2;
+            }
+        }
+        else if (numL > numR)
+        {
+            // add lefts then +1 to right
+            int elems = lefts[1]->get_ele_num();
+            Blob* r = rights[0];
+            for (int di = 0; di < elems; di++)
+            {
+                float sumL = 0;
+                for (int i = 0; i < numL; i++)
+                    sumL += lefts[i]->_data[di];
+                r->_data[di] = sumL + 1;
+            }
+        }
+    }
+    void bp(vector<Blob*> lefts, vector<Blob*> rights){
+        vector<Blob*> t = lefts;
+        lefts = rights;
+        rights = t;
+
+        int numL = lefts.size();
+        int numR = rights.size();
+
+        if (numL < numR)
+        {
+            // copy left+1 to rights
+            Blob* l = lefts[0];
+            int elems = 24;
+            for (int i = 0; i < numR; i++)
+            {
+                for (int di = 0; di < elems; di++)
+                    rights[i]->_data[di] = l->_data[di] + 1;
+            }
+        }
+        else if (numL == numR)
+        {
+            // copy left+2 to rights accordingly
+            for (int i = 0; i < numL; i++)
+            {
+                int elems = 24;
+                for (int di = 0; di < elems; di++)
+                    rights[i]->_data[di] = lefts[i]->_data[di] + 2;
+            }
+        }
+        else if (numL > numR)
+        {
+            // add lefts then +1 to right
+            int elems = 24;
+            Blob* r = rights[0];
+            for (int di = 0; di < elems; di++)
+            {
+                float sumL = 0;
+                for (int i = 0; i < numL; i++)
+                    sumL += lefts[i]->_data[di];
+                r->_data[di] = sumL + 1;
+            }
+        }
+    }
     void get_outputs_dimensions(int inputs_dims[], const int numInputs, int outputs_dims[], const int numOutputs)
     {
         int size = numOutputs * 4;
@@ -17,6 +105,23 @@ public:
     }
     TestLayerForSeqNet(char* name):Layer(name){}
     bool check_dimensions(){return true;}
+};
+
+class _Test_Generator : public MnistGenerator
+{
+    public:
+    _Test_Generator():MnistGenerator("../../../train-images.idx3-ubyte","../../../train-labels.idx1-ubyte"){}
+    std::vector<Blob> loadSample(int batchSize)
+    {
+        Blob *generated1 = new Blob("g1", 1, 2, 3, 4);
+        Blob *generated2 = new Blob("g2", 1, 2, 3, 4);
+        generated1->init();
+        generated2->init();
+        vector<Blob> ret;
+        ret.push_back(*generated1);
+        ret.push_back(*generated2);
+        return ret;
+    }
 };
 
 TEST(SeqNetTest, add_layer_1layer_0in2out)
@@ -157,4 +262,86 @@ TEST(SeqNetTest, get_blob_id_by_name)
     EXPECT_EQ(2, net.get_blob_id_by_name("b3"));
     EXPECT_EQ(3, net.get_blob_id_by_name("b4"));
     EXPECT_EQ(-1, net.get_blob_id_by_name("b5"));
+}
+
+/**
+ * No test for SeqNet::init(). init() of Blob or Layer should be tested in their own test suite.
+ */
+
+/**
+ *                     ____(l1out2)_____________________
+ *                    /                                 \
+ * Generator == intput                                   Layer3---(l3out)
+ *                    \____(l1out1)___layer2___(l2out)__/
+ */
+TEST(SeqNetTest, infer)
+{
+    TestLayerForSeqNet tLayer1 = TestLayerForSeqNet("TestLayerForSeqNet1");
+    TestLayerForSeqNet tLayer2 = TestLayerForSeqNet("TestLayerForSeqNet2");
+    TestLayerForSeqNet tLayer3 = TestLayerForSeqNet("TestLayerForSeqNet3");
+    SeqNet net = SeqNet();
+
+    // add 1st layer
+    const char* rights1[] = {"l1out1", "l1out2"};
+    net.add_layer(&tLayer1, NULL, 0, rights1, 2);
+
+    // add 2nd layer
+    const char* lefts2[] = {"l1out1"};
+    const char* rights2[] = {"l2out"};
+    net.add_layer(&tLayer2, lefts2, 1, rights2, 1);
+
+    // add 3rd layer
+    const char* lefts3[] = {"l1out2", "l2out"};
+    const char* rights3[] = {"l3out"};
+    net.add_layer(&tLayer3, lefts3, 2, rights3, 1);
+
+    // add generated blobs to lefts[0]
+    _Test_Generator generator = _Test_Generator();
+    net.update_generator(&generator);
+
+    net.init();
+    net.infer();
+
+    // check "l3out"
+    Blob* out = net.blobs[net.get_blob_id_by_name("l3out")];
+    EXPECT_FLOAT_EQ(7, out->_data[0]);
+}
+
+TEST(SeqNetTest, bp)
+{
+    TestLayerForSeqNet tLayer1 = TestLayerForSeqNet("TestLayerForSeqNet1");
+    TestLayerForSeqNet tLayer2 = TestLayerForSeqNet("TestLayerForSeqNet2");
+    TestLayerForSeqNet tLayer3 = TestLayerForSeqNet("TestLayerForSeqNet3");
+    SeqNet net = SeqNet();
+
+    // add 1st layer
+    const char* rights1[] = {"l1out1", "l1out2"};
+    net.add_layer(&tLayer1, NULL, 0, rights1, 2);
+
+    // add 2nd layer
+    const char* lefts2[] = {"l1out1"};
+    const char* rights2[] = {"l2out"};
+    net.add_layer(&tLayer2, lefts2, 1, rights2, 1);
+
+    // add 3rd layer
+    const char* lefts3[] = {"l1out2", "l2out"};
+    const char* rights3[] = {"l3out"};
+    net.add_layer(&tLayer3, lefts3, 2, rights3, 1);
+
+    // add generated blobs to lefts[0]
+    _Test_Generator generator = _Test_Generator();
+    net.update_generator(&generator);
+
+    net.init();
+    net.infer();
+
+    // check "l3out"
+    Blob* out = net.blobs[net.get_blob_id_by_name("l3out")];
+    ASSERT_FLOAT_EQ(7, out->_data[0]);
+
+    net.bp();
+    
+    // Check "l1out1"
+    out = net.blobs[net.get_blob_id_by_name("l1out1")];
+    EXPECT_FLOAT_EQ(10, out->_data[0]);
 }

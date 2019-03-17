@@ -2,6 +2,8 @@
 
 master: [![Build Status](https://travis-ci.com/DavyVan/UCR-CS217-FinalProject.svg?token=aPmAPRxERpUR8kmR2XzD&branch=master)](https://travis-ci.com/DavyVan/UCR-CS217-FinalProject)
 fq-dev: [![Build Status](https://travis-ci.com/DavyVan/UCR-CS217-FinalProject.svg?token=aPmAPRxERpUR8kmR2XzD&branch=fq-dev)](https://travis-ci.com/DavyVan/UCR-CS217-FinalProject)
+yz-branch: [![Build Status](https://travis-ci.com/DavyVan/UCR-CS217-FinalProject.svg?token=aPmAPRxERpUR8kmR2XzD&branch=yz-branch)](https://travis-ci.com/DavyVan/UCR-CS217-FinalProject)
+mc-dev: [![Build Status](https://travis-ci.com/DavyVan/UCR-CS217-FinalProject.svg?token=aPmAPRxERpUR8kmR2XzD&branch=mc-dev)](https://travis-ci.com/DavyVan/UCR-CS217-FinalProject)
 
 ## NOTICE
 
@@ -23,6 +25,11 @@ fq-dev: [![Build Status](https://travis-ci.com/DavyVan/UCR-CS217-FinalProject.sv
 2. No check for repeated names of blobs and layers.
 1. Cannot control the start point and end point. You can only run the whole net forward or/and backward.
 1. For other unstated limitations, please see the TODOs in source code. 
+
+## Requirements
+* g++ 4.9+
+* CMake 2.8.11+
+* CUDA
 
 ## How to build MiniCaffe
 

@@ -1,13 +1,13 @@
 //
 // Created by mingchen on 3/9/19.
 //
-
 #include "mnist_generator.h"
 #include "../blob.h"
 #include <iostream>
 #include <assert.h>
 #include <cstring>
 #include <fstream>
+#include <algorithm>
 
 MnistGenerator::MnistGenerator(std::string sampleFile, std::string labelFile) {
     using namespace std;
@@ -65,7 +65,7 @@ std::vector<Blob> MnistGenerator::loadSample(int batchSize){
         std::cout<<_images[offset+i].data()<<std::endl;
         for(int x=0;x<col_size;x++){
             for(int y=0;y<col_size;y++){
-                *(sample.at(i,x,y,1))=_images[offset+i][y*col_size+x];
+                sample(i,x,y,1)=_images[offset+i][y*col_size+x];
             }
         }
         label._data[i]=_labels[offset+i];
