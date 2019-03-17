@@ -21,7 +21,7 @@ endif(TEST_ENABLED)
 find_package(CUDA REQUIRED)
 include_directories(${CUDA_INCLUDE_DIRS})
 file(GLOB MINICAFE_SRC_FILES "layers/*.cpp" "layers/*.cu" "*.cpp" "*.cu")
-set(CUDA_NVCC_FLAGS "-g -G")
+set(CUDA_NVCC_FLAGS "-g -G --std=c++11")
 
 set(PLATFORM -gencode=arch=compute_61,code=compute_61)
 set(PLATFORM ${PLATFORM} -gencode arch=compute_61,code=sm_61)
