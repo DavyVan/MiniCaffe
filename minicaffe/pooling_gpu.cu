@@ -137,7 +137,7 @@ void PoolingLayer::infer_gpu(vector<Blob *> left_blobs, vector<Blob *> right_blo
     int out_ele = right_blobs[0]->get_ele_num();
 
 	in_h = left_blobs[0]->_data;
-	out_h=(float*)malloc(num_ele*sizeof(float));
+	out_h = (float*)malloc(out_ele * sizeof(float));
 
     cuda_ret = cudaMalloc((void**)&in_d, num_ele * sizeof(float));
     if (cuda_ret != cudaSuccess)
