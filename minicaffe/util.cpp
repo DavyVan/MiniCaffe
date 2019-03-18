@@ -92,3 +92,23 @@ int print_coord_matrix(coord_ptr A, int batch_size, int x, int y, int z)
 	if (k == z &&  i == y && j == x && curr_idx == batch_size) return 0;
 	return -2;
 }
+
+void simple_gemm(int M, int N, int K, float alpha, float* A, float* B, float beta, float* C)
+{
+	for (int row = 0; row < M; row++)
+	{
+		for (int col = 0; col < N; col++)
+		{
+			float sum = 0;
+			for (int i = 0; i < K; i++)
+				sum += A[row*K + i] * B[i*N + col];
+			C[row*N + col] = alpha * sum + beta * C[row*N + col];
+		}
+	}
+}
+
+void vector_add(int L, float* A, float* B, float* C)
+{
+	for (int i = 0; i < L; i++)
+		C[i] = A[i] + B[i];
+}
