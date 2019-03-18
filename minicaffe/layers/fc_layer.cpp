@@ -73,3 +73,37 @@ void FCLayer::infer(std::vector<Blob*> lefts, std::vector<Blob*> rights)
             vector_add(N_, &right->_data[b * N_], bias, &right->_data[b * N_]);
     }
 }
+
+void FCLayer::bp(std::vector<Blob*> lefts, std::vector<Blob*> rights)
+{
+    Blob* left = lefts[0];
+    Blob* right = rights[0];
+
+    // weight
+    // we first transpose left from MxK --> KxM
+    float* leftT = new float[K_ * M_];
+    for (int row = 0; row < M_; row++)
+    {
+        for (int col = 0; col < K_; col++)
+        {
+            leftT[col * M_ + row] = left->_data[row * K_ + col];
+        }
+    }
+    simple_gemm(K_, N_, M_, 1, leftT, right->_data, 1, weight);
+
+    // bias
+    if (bias_term)
+    {
+        float* bias_diff = new float[N_];
+        for (int b = 0; b < M_; b++)
+            vector_add(N_, &right->_data[b * N_], bias_diff, bias_diff);
+        vector_add(N_, bias, bias_diff, bias);
+
+        delete[] bias_diff;
+    }
+
+    // left, write the diff to left
+    simple_gemm(M_, K_, N_, 1, right->_data, weight, 0, left->_data);
+
+    delete[] leftT;
+}
