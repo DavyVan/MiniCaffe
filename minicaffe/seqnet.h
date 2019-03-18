@@ -110,8 +110,8 @@ class SeqNet
     private:
         vector<Layer*> layers;          /**< All layers, in the order of insertion and running */
         vector<Blob*> blobs;            /**< All blobs, in the order of insertion */
-        vector<vector<Blob*>> lefts;    /**< lefts for each layer */
-        vector<vector<Blob*>> rights;   /**< rights for each layer */
+        vector<vector<Blob*> > lefts;    /**< lefts for each layer */
+        vector<vector<Blob*> > rights;   /**< rights for each layer */
         MnistGenerator* dataGenerator;
         static int batchsize;
 

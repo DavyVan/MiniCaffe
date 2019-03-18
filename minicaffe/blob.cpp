@@ -11,7 +11,7 @@
 #include "blob.h"
 #include "util.h"
 #include "errors.h"
-
+#include <stdio.h>
 Blob::Blob(const char* name, int sizeofEle)
     : sizeofEle(sizeofEle)
 {
@@ -94,4 +94,16 @@ Blob Blob::operator=(const Blob & rhs) {
         memcpy(this->_data,rhs._data,this->get_ele_num()*sizeofEle);
     }
     return *this;
+}
+
+float& Blob::operator()(int batch_pos, int x_pos, int y_pos, int z_pos) {
+    if(_data==NULL){
+        printf("[ERROR] Null Pointer when load blob %s (%d,%d,%d,%d)\n",name,batch_pos,x_pos,y_pos,z_pos);
+        std::exit(-1);
+    }
+    if(batch_pos>=batchSize||x_pos>=x||y_pos>=y||z_pos>=z){
+        printf("[ERROR] Index (%d,%d,%d,%d) out of range (%d,%d,%d,%d) in blob %s \n",batch_pos,x_pos,y_pos,z_pos,batchSize,x,y,z,name);
+        std::exit(-1);
+    }
+    return _data[batch_pos*(x*y*z)+x_pos*(y*z)+y_pos*(z)+z_pos];
 }
