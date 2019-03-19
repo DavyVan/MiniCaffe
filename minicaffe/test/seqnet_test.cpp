@@ -296,7 +296,7 @@ TEST(SeqNetTest, infer)
     net.add_layer(&tLayer3, lefts3, 2, rights3, 1);
 
     // add generated blobs to lefts[0]
-    _Test_Generator generator = _Test_Generator();
+    _Test_Generator generator;
     net.update_generator(&generator);
 
     net.init();
@@ -329,7 +329,7 @@ TEST(SeqNetTest, bp)
     net.add_layer(&tLayer3, lefts3, 2, rights3, 1);
 
     // add generated blobs to lefts[0]
-    _Test_Generator generator = _Test_Generator();
+    _Test_Generator generator;
     net.update_generator(&generator);
 
     net.init();
