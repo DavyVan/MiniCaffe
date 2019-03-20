@@ -8,12 +8,13 @@
 #include <cstring>
 #include <fstream>
 #include <algorithm>
-
-MnistGenerator::MnistGenerator(std::string sampleFile, std::string labelFile) {
-    using namespace std;
+#include <errno.h>
+using namespace std;
+MnistGenerator::MnistGenerator(std::string sampleFile, std::string labelFile)
+ {
     try{
-        sampleFS=ifstream(sampleFile.c_str(),ios::in|ios::binary);
-        labelFS=ifstream(labelFile.c_str(),ios::in|ios::binary);
+        sampleFS.open(sampleFile.c_str(),ios::in|ios::binary);
+        labelFS.open(labelFile.c_str(),ios::in|ios::binary);
     }
     catch(exception e){
         std::cout<<"[ERROR] Sample file not exist"<<endl<<flush;
@@ -65,7 +66,7 @@ std::vector<Blob> MnistGenerator::loadSample(int batchSize){
         std::cout<<_images[offset+i].data()<<std::endl;
         for(int x=0;x<col_size;x++){
             for(int y=0;y<col_size;y++){
-                sample(i,x,y,1)=_images[offset+i][y*col_size+x];
+                sample(i,x,y,0)=_images[offset+i][y*col_size+x];
             }
         }
         label._data[i]=_labels[offset+i];

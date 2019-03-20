@@ -11,26 +11,30 @@
 class NormalizationLayer : public Layer
 {
 public:
-	int nn;
-	float alpha;
-	float beta;
-	float kk;
-	
-	NormalizationLayer();
-	NormalizationLayer(char *name);
-	NormalizationLayer(char *name, float alpha_, float beta_, float kk_, int nn_);
+        int nn;
+        float alpha;
+        float beta;
+        float kk;
 
-	~NormalizationLayer();
+        NormalizationLayer();
+        NormalizationLayer(char *name);
+        NormalizationLayer(char *name, float alpha_, float beta_, float kk_, int nn_);
 
-	int init();
+        ~NormalizationLayer();
 
-	void infer(vector<Blob*> left_blobs, vector<Blob*> right_blobs);
+        int init();
 
-	void bp(vector<Blob*> left_blobs, vector<Blob*> right_blobs);
+        void infer(vector<Blob*> left_blobs, vector<Blob*> right_blobs);
 
-	void get_outputs_dimensions(int inputs_dims[], const int numInputs, int outputs_dims[], const int numOutputs);
+        void bp(vector<Blob*> left_blobs, vector<Blob*> right_blobs);
 
-	bool check_dimensions();
+        void infer_gpu(vector<Blob*> left_blobs, vector<Blob*> right_blobs);
+
+        void bp_gpu(vector<Blob*> left_blobs, vector<Blob*> right_blobs);
+
+        void get_outputs_dimensions(int inputs_dims[], const int numInputs, int outputs_dims[], const int numOutputs);
+
+        bool check_dimensions();
 };
 
 #endif
