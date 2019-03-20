@@ -107,7 +107,7 @@ int SeqNet::init()
     return err;
 }
 
-void SeqNet::infer()
+void SeqNet::infer(bool gpu_enabled)
 {
     // Reset all blobs
     for (std::vector<Blob*>::iterator it = blobs.begin(); it != blobs.end(); it++)
@@ -128,21 +128,29 @@ void SeqNet::infer()
     int n = layers.size();
     for (int i = 0; i < n; i++)
     {
-        layers[i]->infer(lefts[i], rights[i]);
+        if (gpu_enabled)
+            layers[i]->infer_gpu(lefts[i], rights[i]);
+        else
+            layers[i]->infer(lefts[i], rights[i]);
     }
 }
 
-void SeqNet::bp()
+void SeqNet::bp(bool gpu_enabled)
 {
     int n = layers.size();
     for (int i = n-1; i >= 0; i--)
-        layers[i]->bp(lefts[i], rights[i]);
+    {
+        if (gpu_enabled)
+            layers[i]->bp_gpu(lefts[i], rights[i]);
+        else
+            layers[i]->bp(lefts[i], rights[i]);
+    }
 }
 
-void SeqNet::train()
+void SeqNet::train(bool gpu_enabled)
 {
-    infer();
-    bp();
+    infer(gpu_enabled);
+    bp(gpu_enabled);
 }
 
 Blob* SeqNet::get_output(const char* name)

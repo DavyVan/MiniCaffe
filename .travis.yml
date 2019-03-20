@@ -9,6 +9,8 @@ branches:
     - fq-dev
     - yz-branch
     - mc-dev
+before_install:
+  - sudo apt-get install -y cuda
 script:
   - cd minicaffe/build
   - cmake .. -DTEST_ENABLED=ON

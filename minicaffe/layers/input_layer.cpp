@@ -20,12 +20,7 @@ void InputLayer::infer(vector<Blob*> lefts, vector<Blob*> rights) {
 void InputLayer::bp(vector<Blob *> lefts, vector<Blob *> rights) {
 
 }
-void InputLayer::infer_gpu(vector<Blob*> lefts, vector<Blob*> rights){
-    infer(lefts,rights);
-}
-void InputLayer::bp_gpu(vector<Blob*> lefts, vector<Blob*> rights){
 
-}
 void InputLayer::get_outputs_dimensions(int *inputs_dims, const int numInputs, int *outputs_dims,
                                         const int numOutputs) {
 
@@ -39,4 +34,11 @@ int InputLayer::init() {
     return 0;
 }
 
-
+void InputLayer::infer_gpu(vector<Blob *> lefts, vector<Blob *> rights)
+{
+    infer(lefts, rights);
+}
+void InputLayer::bp_gpu(vector<Blob *> lefts, vector<Blob *> rights)
+{
+    bp(lefts, rights);
+}

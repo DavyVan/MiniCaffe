@@ -16,6 +16,11 @@ SigmoidCrossEntropyLoss::SigmoidCrossEntropyLoss(char* name) : Layer(name), sigm
 
 void SigmoidCrossEntropyLoss::infer(std::vector<Blob*> lefts, std::vector<Blob*> rights)
 {
+    if (lefts[0]->get_ele_num() != lefts[1]->get_ele_num())
+    {
+        printf("[Error] The inputs' dimension must be the same.\n");
+        exit(1);
+    }
     // Call sigmoid layer
     sigmoidLayer.infer(lefts, std::vector<Blob*>({sigmoid_output}));
 
@@ -33,6 +38,19 @@ void SigmoidCrossEntropyLoss::infer(std::vector<Blob*> lefts, std::vector<Blob*>
     rights[0]->_data[0] = loss / SeqNet::get_batchsize();
 }
 
+void SigmoidCrossEntropyLoss::bp(std::vector<Blob*> lefts, std::vector<Blob*> rights)
+{
+    int n = lefts[0]->get_ele_num();
+    Blob* target = lefts[1];
+
+    float loss_weight = rights[0]->_data[0] / SeqNet::get_batchsize();
+    // vsSub
+    for (int i = 0; i < n; i++)
+    {
+        lefts[0]->_data[i] = (sigmoid_output->_data[i] - target->_data[i]) * loss_weight;
+    }
+}
+
 void SigmoidCrossEntropyLoss::get_outputs_dimensions(int inputs_dims[], const int numInputs, int outputs_dims[], const int numOutputs)
 {
     // equal to label's dimensions
@@ -41,11 +59,12 @@ void SigmoidCrossEntropyLoss::get_outputs_dimensions(int inputs_dims[], const in
         printf("[Error] Sigmoid cross entropy loss layer needs 2 inputs rather than %d.\n", numInputs);
         exit(1);
     }
+
     outputs_dims[0] = 1;
     outputs_dims[1] = 1;
     outputs_dims[2] = 1;
     outputs_dims[3] = 1;
-    sigmoid_output = new Blob("sigmoid_output", outputs_dims[0], outputs_dims[1], outputs_dims[2], outputs_dims[3]);
+    sigmoid_output = new Blob("sigmoid_output", inputs_dims[0], inputs_dims[1], inputs_dims[2], inputs_dims[3]);
 }
 
 bool SigmoidCrossEntropyLoss::check_dimensions() {return true;}
@@ -62,4 +81,13 @@ int SigmoidCrossEntropyLoss::init()
         sigmoid_output->init();
     }
     return 0;
+}
+
+void SigmoidCrossEntropyLoss::infer_gpu(std::vector<Blob *> lefts, std::vector<Blob *> rights)
+{
+    infer(lefts, rights);
+}
+void SigmoidCrossEntropyLoss::bp_gpu(std::vector<Blob *> lefts, std::vector<Blob *> rights)
+{
+    bp(lefts, rights);
 }
