@@ -20,8 +20,11 @@ void InputLayer::infer(vector<Blob*> lefts, vector<Blob*> rights) {
 void InputLayer::bp(vector<Blob *> lefts, vector<Blob *> rights) {
 
 }
+
 void InputLayer::get_outputs_dimensions(int *inputs_dims, const int numInputs, int *outputs_dims,
                                         const int numOutputs) {
+
+    memcpy(outputs_dims, inputs_dims, 4 * sizeof(int)*numOutputs);
 
 }
 bool InputLayer::check_dimensions() {
