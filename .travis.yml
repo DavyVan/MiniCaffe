@@ -10,6 +10,7 @@ branches:
     - yz-branch
     - mc-dev
 script:
+  - apt-get install -y cuda
   - cd minicaffe/build
   - cmake .. -DTEST_ENABLED=ON
   - cmake --build .
