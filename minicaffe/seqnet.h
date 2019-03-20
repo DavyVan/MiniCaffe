@@ -92,7 +92,7 @@ class SeqNet
          *        Call infer() and bp()
          * 
          */
-        void train(bool gpu_enabled=false);
+        void train(int iteration, bool gpu_enabled=false);
 
         /***
          * @brief return a copy of the required blob.

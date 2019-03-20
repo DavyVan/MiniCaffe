@@ -24,7 +24,7 @@ int random_matrix(float *A, int eleNum)
 	unsigned int i;
 	for (i = 0; (A + i) && (i < eleNum); i++)
 	{
-		A[i] = (float)(rand() % 10) + 0.01 * (rand() % 100); 
+		A[i] = (float) (0.01 * (rand() % 100)); 
 	}
 
 	if (i == eleNum) return 0;

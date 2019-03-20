@@ -147,10 +147,16 @@ void SeqNet::bp(bool gpu_enabled)
     }
 }
 
-void SeqNet::train(bool gpu_enabled)
+void SeqNet::train(int iteration, bool gpu_enabled)
 {
-    infer(gpu_enabled);
-    bp(gpu_enabled);
+    for (int i = 0; i < iteration; i++)
+    {
+        infer(gpu_enabled);
+        bp(gpu_enabled);
+        Blob* loss = get_output("loss");
+        printf("Training: batch-%d, loss=%f\n", i, loss->_data[0]);
+    }
+
 }
 
 Blob* SeqNet::get_output(const char* name)
