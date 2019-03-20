@@ -20,7 +20,7 @@ public:
     void get_outputs_dimensions(int inputs_dims[], const int numInputs, int outputs_dims[], const int numOutputs);
     bool check_dimensions();
     int init(); // weights, bias
-private:
+// private:
     int N_;         // output dim
     int K_;         // flattened dim
     int M_;         // batch size

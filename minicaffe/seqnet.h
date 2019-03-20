@@ -92,7 +92,7 @@ class SeqNet
          *        Call infer() and bp()
          * 
          */
-        void train(bool gpu_enabled=false);
+        void train(int iteration, bool gpu_enabled=false);
 
         /***
          * @brief return a copy of the required blob.
@@ -107,7 +107,7 @@ class SeqNet
          */
         int static get_batchsize();
 
-    private:
+    // private:
         vector<Layer*> layers;          /**< All layers, in the order of insertion and running */
         vector<Blob*> blobs;            /**< All blobs, in the order of insertion */
         vector<vector<Blob*> > lefts;    /**< lefts for each layer */

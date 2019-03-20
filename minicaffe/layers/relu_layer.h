@@ -9,7 +9,7 @@
 #include "../blob.h"
 #include <string>
 
-class ReluLayer:Layer {
+class ReluLayer: public Layer {
 public:
     ReluLayer(char* name):Layer(name){};
 

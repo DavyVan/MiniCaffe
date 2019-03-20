@@ -7,6 +7,7 @@
 
 #include "sigmoid_cross_entropy_loss.h"
 #include "../seqnet.h"
+#include "../util.h"
 #include <cmath>
 
 SigmoidCrossEntropyLoss::SigmoidCrossEntropyLoss(char* name) : Layer(name), sigmoidLayer("_sigmoid")
@@ -18,7 +19,7 @@ void SigmoidCrossEntropyLoss::infer(std::vector<Blob*> lefts, std::vector<Blob*>
 {
     if (lefts[0]->get_ele_num() != lefts[1]->get_ele_num())
     {
-        printf("[Error] The inputs' dimension must be the same.\n");
+        printf("[Error] The inputs' dimension must be the same. lefts[0] is [%d, %d, %d, %d], lefts[1] is [%d, %d, %d, %d]\n", lefts[0]->batchSize, lefts[0]->x, lefts[0]->y, lefts[0]->z, lefts[1]->batchSize, lefts[1]->x, lefts[1]->y, lefts[1]->z);
         exit(1);
     }
     // Call sigmoid layer
@@ -26,12 +27,15 @@ void SigmoidCrossEntropyLoss::infer(std::vector<Blob*> lefts, std::vector<Blob*>
 
     Blob* input_data = lefts[0];
     Blob* target = lefts[1];
+
+    // helper::print_blob(*input_data);
     float loss = 0;
     int n = input_data->get_ele_num();
     for (int i = 0; i < n; i++)
     {
-        loss -= input_data->_data[i] * (target->_data[i] - (input_data->_data[i] >= 0 ? 1 : 0))
-                - log(1 + exp(input_data->_data[i] - 2 * input_data->_data[i] * (input_data->_data[i] >= 0 ? 1 : 0)));
+        // loss -= input_data->_data[i] * (target->_data[i] - (input_data->_data[i] >= 0 ? 1 : 0))
+        //         - log(1 + exp(input_data->_data[i] - 2 * input_data->_data[i] * (input_data->_data[i] >= 0 ? 1 : 0)));
+        loss -= log(1 + exp(input_data->_data[i] - 2 * input_data->_data[i] * (input_data->_data[i] >= 0 ? 1 : 0)));
     }
 
     // use batch size as normalizer

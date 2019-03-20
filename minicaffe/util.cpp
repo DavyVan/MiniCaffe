@@ -17,14 +17,14 @@ void alloc_and_strcpy(char** dst, const char* src)
     strcpy(*dst, src);
 }
 
-int random_matrix(float *A, int eleNum)
+int random_matrix(float *A, int eleNum, float scalar)
 {
 	srand(time(NULL));
 	if (A == NULL) return -1;
 	unsigned int i;
 	for (i = 0; (A + i) && (i < eleNum); i++)
 	{
-		A[i] = (float)(rand() % 10) + 0.01 * (rand() % 100); 
+		A[i] = (float) (0.01 * (rand() % 100)) * scalar; 
 	}
 
 	if (i == eleNum) return 0;

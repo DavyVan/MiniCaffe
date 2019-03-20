@@ -2,6 +2,7 @@
 #include "seqnet.h"
 #include "errors.h"
 #include "layer.h"
+#include "util.h"
 
 int SeqNet::batchsize = 32;
 
@@ -147,10 +148,19 @@ void SeqNet::bp(bool gpu_enabled)
     }
 }
 
-void SeqNet::train(bool gpu_enabled)
+void SeqNet::train(int iteration, bool gpu_enabled)
 {
-    infer(gpu_enabled);
-    bp(gpu_enabled);
+    for (int i = 0; i < iteration; i++)
+    {
+        infer(gpu_enabled);
+        bp(gpu_enabled);
+        Blob* loss = get_output("loss");
+        printf("Training: batch-%d, loss=%f\n", i, loss->_data[0]);
+        helper::print_blob(*blobs[get_blob_id_by_name("fc2")]);
+        printf("label: ");
+        helper::print_blob(*blobs[get_blob_id_by_name("label")]);
+    }
+
 }
 
 Blob* SeqNet::get_output(const char* name)

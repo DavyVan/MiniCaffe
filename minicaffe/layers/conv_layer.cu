@@ -159,3 +159,7 @@ void ConvLayer::bp_gpu(std::vector<Blob *> lefts, std::vector<Blob *> rights) {
     conv(warped_right,warped_kernel,*lefts[0],1,1);
     update(lefts[0]->batchSize);
 }
+
+void ConvLayer::bp_gpu(std::vector<Blob *> lefts, std::vector<Blob *> rights) {
+    bp(lefts, rights);
+}
