@@ -79,20 +79,20 @@ class SeqNet
          *          (a) find lefts and rights blobs
          *          (b) call infer() 
          */
-        void infer();
+        void infer(bool gpu_enabled=false);
 
         /***
          * @brief Do backward propagation
          * 
          */
-        void bp();
+        void bp(bool gpu_enabled=false);
 
         /***
          * @brief Training process consists of inference and BP.
          *        Call infer() and bp()
          * 
          */
-        void train();
+        void train(bool gpu_enabled=false);
 
         /***
          * @brief return a copy of the required blob.

@@ -82,3 +82,12 @@ int SigmoidCrossEntropyLoss::init()
     }
     return 0;
 }
+
+void SigmoidCrossEntropyLoss::infer_gpu(std::vector<Blob *> lefts, std::vector<Blob *> rights)
+{
+    infer(lefts, rights);
+}
+void SigmoidCrossEntropyLoss::bp_gpu(std::vector<Blob *> lefts, std::vector<Blob *> rights)
+{
+    bp(lefts, rights);
+}

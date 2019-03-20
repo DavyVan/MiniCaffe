@@ -1,36 +1,26 @@
 #include <cstdio>
-#include "minicaffe/blob.h"
-#include "minicaffe/layers/mnist_generator.h"
+#include "minicaffe/minicaffe.h"
 #include <assert.h>
 int main()
 {
-    // TODO: for input layer, must assign "data" before "laber"
-    Blob blob = Blob();
-    blob.x = 2;
-    blob.y = 3;
-    blob.z = 4;
-    printf("Hi MiniCaffe is running! %d\n", blob.get_ele_num());
 
-    /**
-     * 1. Init data generator with target file/folder/database etc.
-     * Generator generator = new MINSTGenerator("./minst");
-     *
-     * 2. Add layers
-     * Net net();
-     * net.update_generator(generator);
-     * Net net(generator);
-     * FCLayer.fc(net, ...);
-     * ...
-     *
-     * 3. Init net
-     * net.init();
-     *
-     * 4. train
-     * net.train()
-     *
-     * 5. get reault
-     * Blob output = net.get_output("output blob name");
-     */
+    // 1. Init data generator with target file / folder / database etc.
+    MnistGenerator generator("./train-images.idx3-ubyte", "./train-labels.idx1-ubyte");
+
+    // 2. Create an empty net and initialize it with a generator
+    Net net(&generator);
+
+    // 3. Add some layers
 
 
+    // 3. Init net
+    net.init();
+
+    // 4. train with CPU
+    net.train();
+    // or with GPU if any layer supports
+    net.train(true);
+
+    // 5. get result
+    Blob* output = net.get_output("loss");
 }

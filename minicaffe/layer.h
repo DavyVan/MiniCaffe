@@ -30,8 +30,10 @@ class Layer
         virtual int init()=0;
 
         virtual void infer(vector<Blob*> lefts, vector<Blob*> rights)=0;
+        virtual void infer_gpu(vector<Blob*> lefts, vector<Blob*> right);
 
         virtual void bp(vector<Blob*> lefts, vector<Blob*> rights)=0;
+        virtual void bp_gpu(vector<Blob*> lefts, vector<Blob*> rights);
 
         /***
          * @brief Calculate the outputs' dimensions given inputs' dimensions.

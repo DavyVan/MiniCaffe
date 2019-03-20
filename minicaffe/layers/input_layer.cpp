@@ -31,3 +31,11 @@ int InputLayer::init() {
     return 0;
 }
 
+void InputLayer::infer_gpu(vector<Blob *> lefts, vector<Blob *> rights)
+{
+    infer(lefts, rights);
+}
+void InputLayer::bp_gpu(vector<Blob *> lefts, vector<Blob *> rights)
+{
+    bp(lefts, rights);
+}
