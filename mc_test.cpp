@@ -45,19 +45,20 @@ int main()
      */
 
 ////
-//    MnistGenerator generator=MnistGenerator("../../train-images.idx3-ubyte","../../train-labels.idx1-ubyte");
-//    std::vector<Blob> sample=generator.loadSample(3);
-//    print_image(sample[0]);
+    MnistGenerator generator=MnistGenerator("../train-images.idx3-ubyte","../train-labels.idx1-ubyte");
+    std::vector<Blob> sample=generator.loadSample(3);
+    print_image(sample[0]);
+    helper::print_blob(sample[1]);
 
-    int in_batch=2;
-    int in_width=4;
-    int in_height=4;
-    int kernel_size=2;
-    int in_channels=1;
-    int out_channels=2;
-    int w_stride=2;
-    int h_stride=2;
-//
+//    int in_batch=2;
+//    int in_width=4;
+//    int in_height=4;
+//    int kernel_size=2;
+//    int in_channels=1;
+//    int out_channels=2;
+//    int w_stride=2;
+//    int h_stride=2;
+////
 //    ConvLayer conv((char*)"conv1",in_width,in_height,kernel_size,in_channels,out_channels,w_stride,h_stride);
 //    int* in_dim=new int[4]{in_batch,in_width,in_height,in_channels};
 //    int* out_dim=new int[4];
@@ -81,6 +82,11 @@ int main()
 //    vector<Blob*> right;
 //    left.push_back(&in_blob);
 //    right.push_back(&out_blob);
+//
+//    conv.infer_gpu(left,right);
+//    helper::print_blob(in_blob);
+//    helper::print_blob(conv.weights);
+//    helper::print_blob(out_blob);
 //
 //    conv.infer(left,right);
 //    helper::print_blob(in_blob);

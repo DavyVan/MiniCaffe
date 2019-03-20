@@ -36,7 +36,7 @@ TEST(FCLayerTest, infer)
     fc.init();
     left->init();
     right->init();
-    fc.infer(lefts, rights);
+    fc.infer_gpu(lefts, rights);
 }
 
 TEST(FCLayerTest, bp)
@@ -55,6 +55,6 @@ TEST(FCLayerTest, bp)
     fc.init();
     left->init();
     right->init();
-    fc.infer(lefts, rights);
-    fc.bp(lefts, rights);
+    fc.infer_gpu(lefts, rights);
+    fc.bp_gpu(lefts, rights);
 }
