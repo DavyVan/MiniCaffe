@@ -70,7 +70,7 @@ std::vector<Blob> MnistGenerator::loadSample(int batchSize){
                 sample(i,x,y,0)=_images[offset+i][y*col_size+x];
             }
         }
-        label(i,_labels[offset+i],1,1)=1;
+        label(i,_labels[offset+i],0,0)=1;
         //label._data[i]=_labels[offset+i];
     }
     std::vector<Blob> ret;

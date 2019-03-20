@@ -21,8 +21,6 @@ conv_gpu_stride(float *out, float *in, float *kernel, int in_width,
                                    +InChannel;
 
                     out[out_pos]+=in[in_pos]*kernel[kernel_pos];
-                    printf("(outx: %d outy: %d inx: %d iny: %d invalue: %f kernelvalue: %f result: %f\n",
-                           OutX,OutY,InX,InY,in[in_pos],kernel[kernel_pos],in[in_pos]*kernel[kernel_pos]);
                 }
 
             }
