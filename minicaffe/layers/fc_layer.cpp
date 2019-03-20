@@ -61,6 +61,7 @@ void FCLayer::infer(std::vector<Blob*> lefts, std::vector<Blob*> rights)
 {
     Blob* left = lefts[0];
     Blob* right = rights[0];
+    helper::print_blob(*left);
 
     // treat _data as a 2D matrix
     // right = left * weight
@@ -89,7 +90,7 @@ void FCLayer::bp(std::vector<Blob*> lefts, std::vector<Blob*> rights)
             leftT[col * M_ + row] = left->_data[row * K_ + col];
         }
     }
-    simple_gemm(K_, N_, M_, 1, leftT, right->_data, 1, weight);
+    simple_gemm(K_, N_, M_, 0.01, leftT, right->_data, 1, weight);
 
     // bias
     if (bias_term)
@@ -97,6 +98,10 @@ void FCLayer::bp(std::vector<Blob*> lefts, std::vector<Blob*> rights)
         float* bias_diff = new float[N_];
         for (int b = 0; b < M_; b++)
             vector_add(N_, &right->_data[b * N_], bias_diff, bias_diff);
+        
+        // down scale diff with lr
+        for (int i = 0; i < N_; i++)
+            bias_diff[i] *= 0.01;
         vector_add(N_, bias, bias_diff, bias);
 
         delete[] bias_diff;
