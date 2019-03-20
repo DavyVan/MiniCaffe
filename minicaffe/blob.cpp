@@ -105,5 +105,5 @@ float& Blob::operator()(int batch_pos, int x_pos, int y_pos, int z_pos) {
         printf("[ERROR] Index (%d,%d,%d,%d) out of range (%d,%d,%d,%d) in blob %s \n",batch_pos,x_pos,y_pos,z_pos,batchSize,x,y,z,name);
         std::exit(-1);
     }
-    return _data[batch_pos*(x*y*z)+x_pos*(y*z)+y_pos*(z)+z_pos];
+    return _data[batch_pos*(x*y*z)+y_pos*(x*z)+x_pos*(z)+z_pos];
 }
