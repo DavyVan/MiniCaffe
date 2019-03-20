@@ -30,7 +30,8 @@ void InputLayer::get_outputs_dimensions(int *inputs_dims, const int numInputs, i
     outputs_dims[2] = 28;
     outputs_dims[3] = 1;
     outputs_dims[4] = SeqNet::get_batchsize();
-    outputs_dims[5] = outputs_dims[6] = outputs_dims[7] = 1;
+    outputs_dims[5] = 10;
+    outputs_dims[6] = outputs_dims[7] = 1;
 
 }
 bool InputLayer::check_dimensions() {

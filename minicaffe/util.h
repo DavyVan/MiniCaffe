@@ -15,7 +15,7 @@ void alloc_and_strcpy(char**dst, const char* src);
 
 int print_matrix(float *A, int batch_size, int x, int y, int z);
 
-int random_matrix(float *A, int eleNum);
+int random_matrix(float *A, int eleNum, float scalar=1);
 
 typedef struct coordinate
 {

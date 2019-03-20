@@ -48,7 +48,7 @@ int FCLayer::init()
 {
     // weights (K x N)
     weight = new float[K_ * N_];
-    random_matrix(weight, K_ * N_);
+    random_matrix(weight, K_ * N_, 0.0001);
 
     // bias (N)
     bias = new float[N_];
@@ -61,7 +61,8 @@ void FCLayer::infer(std::vector<Blob*> lefts, std::vector<Blob*> rights)
 {
     Blob* left = lefts[0];
     Blob* right = rights[0];
-    helper::print_blob(*left);
+    // helper::print_blob(*left);
+    printf("%d %d %d\n", M_, N_, K_);
 
     // treat _data as a 2D matrix
     // right = left * weight
@@ -90,7 +91,9 @@ void FCLayer::bp(std::vector<Blob*> lefts, std::vector<Blob*> rights)
             leftT[col * M_ + row] = left->_data[row * K_ + col];
         }
     }
-    simple_gemm(K_, N_, M_, 0.01, leftT, right->_data, 1, weight);
+    // helper::print_blob(*right);
+    // print_matrix(weight, 1, K_, N_, 1);
+    simple_gemm(K_, N_, M_, 0.001, leftT, right->_data, 1, weight);
 
     // bias
     if (bias_term)

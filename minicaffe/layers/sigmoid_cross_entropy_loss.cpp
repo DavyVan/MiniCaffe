@@ -33,8 +33,9 @@ void SigmoidCrossEntropyLoss::infer(std::vector<Blob*> lefts, std::vector<Blob*>
     int n = input_data->get_ele_num();
     for (int i = 0; i < n; i++)
     {
-        loss -= input_data->_data[i] * (target->_data[i] - (input_data->_data[i] >= 0 ? 1 : 0))
-                - log(1 + exp(input_data->_data[i] - 2 * input_data->_data[i] * (input_data->_data[i] >= 0 ? 1 : 0)));
+        // loss -= input_data->_data[i] * (target->_data[i] - (input_data->_data[i] >= 0 ? 1 : 0))
+        //         - log(1 + exp(input_data->_data[i] - 2 * input_data->_data[i] * (input_data->_data[i] >= 0 ? 1 : 0)));
+        loss -= log(1 + exp(input_data->_data[i] - 2 * input_data->_data[i] * (input_data->_data[i] >= 0 ? 1 : 0)));
     }
 
     // use batch size as normalizer
