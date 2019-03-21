@@ -8,7 +8,7 @@
 #include "../layer.h"
 #include "../blob.h"
 #include <string>
-class ConvLayer:Layer {
+class ConvLayer: public Layer {
 public:
     ConvLayer(char* name,int in_width, int in_height,int kernel_size, int in_channels, int out_channels,
         int w_stride,int h_stride);

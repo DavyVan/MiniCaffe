@@ -117,7 +117,7 @@ void ConvLayer::bp(std::vector<Blob *> lefts, std::vector<Blob *> rights) {
         for (int OutChannel = 0; OutChannel < out_channels; OutChannel++) {
             for (int OutX = 0; OutX < out_width; OutX++) {
                 for (int OutY = 0; OutY < out_height; OutY++) {
-                    warped_right(batch,(kernel_size-1)+OutX*w_stride,(kernel_size-1)+OutY*h_stride,OutChannel)=(*rights[0])(batch,OutX,OutY,OutChannel);
+                    warped_right(batch,(kernel_size-1)+OutX*w_stride-1,(kernel_size-1)+OutY*h_stride-1,OutChannel)=(*rights[0])(batch,OutX,OutY,OutChannel);
                 }
             }
         }
