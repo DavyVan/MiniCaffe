@@ -62,9 +62,9 @@ std::vector<Blob> MnistGenerator::loadSample(int batchSize){
     Blob label("label_temp",valid_batch,10,1,1,4);
     label.init();
     for(int i=0;i<valid_batch;i++){
-        // std::cout<<i*row_size*col_size<<std::endl;
-        // std::cout<<&sample._data[i*row_size*col_size]<<std::endl;
-        // std::cout<<_images[offset+i].data()<<std::endl;
+//        std::cout<<i*row_size*col_size<<std::endl;
+//        std::cout<<&sample._data[i*row_size*col_size]<<std::endl;
+//        std::cout<<_images[offset+i].data()<<std::endl;
         for(int x=0;x<col_size;x++){
             for(int y=0;y<row_size;y++){
                 sample(i,x,y,0)=_images[offset+i][y*col_size+x] / 255.0;
