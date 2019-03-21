@@ -56,6 +56,8 @@ void basicVecAdd( float *A,  float *B, float *C, int n)
 
 void FCLayer::infer_gpu(std::vector<Blob*> left_blobs, std::vector<Blob*> right_blobs)
 {
+    infer(left_blobs, right_blobs);
+    return;
     // treat _data as a 2D matrix
     // right = left * weight
     float *in_h, *out_h, *in_d, *out_d, *weight_h, *weight_d, *bias_d;
@@ -111,6 +113,8 @@ void FCLayer::infer_gpu(std::vector<Blob*> left_blobs, std::vector<Blob*> right_
 
 void FCLayer::bp_gpu(std::vector<Blob*> lefts, std::vector<Blob*> rights)
 {
+    bp(lefts, rights);
+    return;
     Blob* left = lefts[0];
     Blob* right = rights[0];
 
