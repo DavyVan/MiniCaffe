@@ -165,13 +165,13 @@ void ConvLayer::update(int batchSize) {
             for (int KernelX = 0; KernelX < kernel_size; KernelX++) {
                 for (int KernelY = 0; KernelY < kernel_size; KernelY++) {
                     weights(OutChannel, KernelX, KernelY, InChannel) +=
-                            delta(OutChannel, KernelX, KernelY, InChannel) / float(batchSize);
+                            0.01 * delta(OutChannel, KernelX, KernelY, InChannel) / float(batchSize);
                 }
             }
         }
     }
     for (int OutChannel = 0; OutChannel < out_channels; OutChannel++) {
-        bias[OutChannel] += delta_bias[OutChannel] / float(batchSize);
+        bias[OutChannel] += 0.01 * delta_bias[OutChannel] / float(batchSize);
     }
 
 }

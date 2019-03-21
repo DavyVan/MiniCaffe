@@ -45,10 +45,10 @@ int main()
      */
 
 ////
-    MnistGenerator generator=MnistGenerator("../train-images.idx3-ubyte","../train-labels.idx1-ubyte");
-    std::vector<Blob> sample=generator.loadSample(3);
-    print_image(sample[0]);
-    helper::print_blob(sample[1]);
+//     MnistGenerator generator=MnistGenerator("../train-images.idx3-ubyte","../train-labels.idx1-ubyte");
+//     std::vector<Blob> sample=generator.loadSample(3);
+//     print_image(sample[0]);
+//     helper::print_blob(sample[1]);
 
 //    int in_batch=2;
 //    int in_width=4;
@@ -126,40 +126,40 @@ int main()
 //    helper::print_blob(in_blob);
 //    helper::print_blob(out_blob);
 
-    FCLayer fclayer("fc", 100, true);
-    fclayer.M_ = 2;
-    int *in_dim = new int[4]{in_batch, in_width, in_height, in_channels};
-    int *out_dim = new int[4];
-    fclayer.get_outputs_dimensions(in_dim, 1, out_dim, 1);
-    Blob in_blob("input", in_batch, in_width, in_height, in_channels);
-    Blob out_blob("output", out_dim[0], out_dim[1], out_dim[2], out_dim[3]);
-    in_blob.init();
-    out_blob.init();
-    fclayer.init();
+    // FCLayer fclayer("fc", 100, true);
+    // fclayer.M_ = 2;
+    // int *in_dim = new int[4]{in_batch, in_width, in_height, in_channels};
+    // int *out_dim = new int[4];
+    // fclayer.get_outputs_dimensions(in_dim, 1, out_dim, 1);
+    // Blob in_blob("input", in_batch, in_width, in_height, in_channels);
+    // Blob out_blob("output", out_dim[0], out_dim[1], out_dim[2], out_dim[3]);
+    // in_blob.init();
+    // out_blob.init();
+    // fclayer.init();
 
-    printf("blobs inited\n");
-    int multi = -1;
-    for (int i = 0; i < in_blob.get_ele_num(); i++)
-    {
-        in_blob._data[i] = i * multi / 100.0;
-        multi *= -1;
-    }
-    // for (int i = 0; i < fclayer.K_*fclayer.N_; i++)
+    // printf("blobs inited\n");
+    // int multi = -1;
+    // for (int i = 0; i < in_blob.get_ele_num(); i++)
     // {
-    //     fclayer.weight[i] = i / 100.0;
+    //     in_blob._data[i] = i * multi / 100.0;
+    //     multi *= -1;
     // }
+    // // for (int i = 0; i < fclayer.K_*fclayer.N_; i++)
+    // // {
+    // //     fclayer.weight[i] = i / 100.0;
+    // // }
 
-    vector<Blob *> left;
-    vector<Blob *> right;
-    left.push_back(&in_blob);
-    right.push_back(&out_blob);
-    printf("aaaaaa\n");
+    // vector<Blob *> left;
+    // vector<Blob *> right;
+    // left.push_back(&in_blob);
+    // right.push_back(&out_blob);
+    // printf("aaaaaa\n");
 
-    fclayer.infer(left, right);
-    printf("bbbb\n");
-    // helper::print_blob(*right[0]);
-    fclayer.bp(left, right);
-    // helper::print_blob(*left[0]);
+    // fclayer.infer(left, right);
+    // printf("bbbb\n");
+    // // helper::print_blob(*right[0]);
+    // fclayer.bp(left, right);
+    // // helper::print_blob(*left[0]);
 }
 
 #include <iostream>

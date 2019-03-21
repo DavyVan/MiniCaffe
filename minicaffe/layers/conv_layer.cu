@@ -37,6 +37,7 @@ conv_gpu_dilation(float *out, float *in, float *kernel, int in_width,
 }
 
 void ConvLayer::infer_gpu(std::vector<Blob *> lefts, std::vector<Blob *> rights) {
+    // infer(lefts, rights);
     rights[0]->reset();
     cudaError_t cuda_ret;
     dim3 dim_grid,dim_block;
@@ -55,10 +56,10 @@ void ConvLayer::infer_gpu(std::vector<Blob *> lefts, std::vector<Blob *> rights)
     assert(cuda_ret == cudaSuccess);
 
     cuda_ret = cudaMalloc((void**)&out_d, rights[0]->get_ele_num() * sizeof(float));
-    if(cuda_ret == cudaSuccess);
+    assert(cuda_ret == cudaSuccess);
 
     cuda_ret = cudaMalloc((void**)&bias_d, out_channels * sizeof(float));
-    if(cuda_ret == cudaSuccess);
+    assert(cuda_ret == cudaSuccess);
 
     cudaDeviceSynchronize();
 
@@ -151,15 +152,11 @@ void ConvLayer::bp_gpu(std::vector<Blob *> lefts, std::vector<Blob *> rights) {
         for (int OutChannel = 0; OutChannel < out_channels; OutChannel++) {
             for (int OutX = 0; OutX < out_width; OutX++) {
                 for (int OutY = 0; OutY < out_height; OutY++) {
-                    warped_right(batch,(kernel_size-1)+OutX*w_stride,(kernel_size-1)+OutY*h_stride,OutChannel)=(*rights[0])(batch,OutX,OutY,OutChannel);
+                    warped_right(batch,(kernel_size-1)+OutX*w_stride-1,(kernel_size-1)+OutY*h_stride-1,OutChannel)=(*rights[0])(batch,OutX,OutY,OutChannel);
                 }
             }
         }
     }
     conv(warped_right,warped_kernel,*lefts[0],1,1);
     update(lefts[0]->batchSize);
-}
-
-void ConvLayer::bp_gpu(std::vector<Blob *> lefts, std::vector<Blob *> rights) {
-    bp(lefts, rights);
 }

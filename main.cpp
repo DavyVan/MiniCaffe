@@ -1,6 +1,7 @@
 #include <cstdio>
 #include "minicaffe/minicaffe.h"
 #include <assert.h>
+#include <time.h>
 int main()
 {
 
@@ -9,7 +10,7 @@ int main()
     printf("file loaded\n");
 
     // 2. Create an empty net and initialize it with a generator
-    Net net(&generator, 2);
+    Net net(&generator, 32);
     printf("net created\n");
 
     // 3. Add some layers
@@ -61,7 +62,15 @@ int main()
     printf("inited\n");
 
     // 4. train with CPU
-    net.train(20);
+    int epoch = 20;
+    float t1, t2;
+    t1 = clock();
+    net.train(epoch);
+    t2 = clock();
+    printf("CPU run %d batches in %f s\n", epoch, (t2-t1)/CLOCKS_PER_SEC);
+    net.train(epoch, true);
+    t1 = clock();
+    printf("GPU run %d batches in %f s\n", epoch, -(t2-t1)/CLOCKS_PER_SEC);
     // print_matrix(fc1.weight, 1, fc1.K_, fc1.N_, 1);
     // helper::print_blob(*net.blobs[net.get_blob_id_by_name("fc1")]);
     // or with GPU if any layer supports
