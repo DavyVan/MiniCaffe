@@ -152,13 +152,15 @@ void SeqNet::train(int iteration, bool gpu_enabled)
 {
     for (int i = 0; i < iteration; i++)
     {
+        // printf("111111 %d %d\n", i, iteration);
         infer(gpu_enabled);
         bp(gpu_enabled);
         Blob* loss = get_output("loss");
         printf("Training: batch-%d, loss=%f\n", i, loss->_data[0]);
-        helper::print_blob(*blobs[get_blob_id_by_name("fc2")]);
-        printf("label: ");
-        helper::print_blob(*blobs[get_blob_id_by_name("label")]);
+        fflush(stdout);
+        // helper::print_blob(*blobs[get_blob_id_by_name("fc2")]);
+        // printf("label: ");
+        // helper::print_blob(*blobs[get_blob_id_by_name("label")]);
     }
 
 }

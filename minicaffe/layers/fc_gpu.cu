@@ -67,7 +67,7 @@ void FCLayer::infer_gpu(std::vector<Blob*> left_blobs, std::vector<Blob*> right_
     num_weight = K_ * N_;
 
     in_h = left_blobs[0]->_data;
-    out_h = (float*)malloc(num_out * sizeof(float));
+    out_h = new float[num_out]; //(float*)malloc(num_out * sizeof(float));
     weight_h = weight;
 
     cudaMalloc((void**)&in_d, num_in * sizeof(float));
@@ -100,7 +100,7 @@ void FCLayer::infer_gpu(std::vector<Blob*> left_blobs, std::vector<Blob*> right_
 
     cudaDeviceSynchronize();
 
-    if (right_blobs[0]->_data) free(right_blobs[0]->_data);
+    if (right_blobs[0]->_data) delete[] right_blobs[0]->_data;
     right_blobs[0]->_data = out_h;
 
     cudaFree(in_d);
@@ -170,10 +170,14 @@ void FCLayer::bp_gpu(std::vector<Blob*> lefts, std::vector<Blob*> rights)
         if (cuda_ret != cudaSuccess)
             printf("errors occured!\n");
     }
-    basicSgemm(M_, K_, N_, 1, right_d, weight_d, 0, left_d);
+    basicSgemm(M_, K_, N_, 11, right_d, weight_d, 0, left_d);
     cudaDeviceSynchronize();
 
     cuda_ret = cudaMemcpy(left_h, left_d, num_left * sizeof(float),
+                          cudaMemcpyDeviceToHost);
+    cuda_ret = cudaMemcpy(weight_h, weight_d, num_weight * sizeof(float),
+                          cudaMemcpyDeviceToHost);
+    cuda_ret = cudaMemcpy(bias_h, bias_d, num_bias * sizeof(float),
                           cudaMemcpyDeviceToHost);
     if (cuda_ret != cudaSuccess)
     {
@@ -183,8 +187,8 @@ void FCLayer::bp_gpu(std::vector<Blob*> lefts, std::vector<Blob*> rights)
 
     cudaDeviceSynchronize();
 
-    if (lefts[0]->_data) free(lefts[0]->_data);
-    lefts[0]->_data = left_h;
+    // if (lefts[0]->_data) free(lefts[0]->_data);
+    // lefts[0]->_data = left_h;
 
     cudaFree(left_d);
     cudaFree(left_t_d);

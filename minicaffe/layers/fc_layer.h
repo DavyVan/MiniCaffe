@@ -20,6 +20,8 @@ public:
     void get_outputs_dimensions(int inputs_dims[], const int numInputs, int outputs_dims[], const int numOutputs);
     bool check_dimensions();
     int init(); // weights, bias
+    void infer_gpu(std::vector<Blob*> left_blobs, std::vector<Blob*> right_blobs);
+    void bp_gpu(std::vector<Blob*> left_blobs, std::vector<Blob*> right_blobs);
 // private:
     int N_;         // output dim
     int K_;         // flattened dim

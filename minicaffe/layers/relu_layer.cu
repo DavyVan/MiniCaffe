@@ -24,7 +24,7 @@ void ReluLayer::infer_gpu(vector<Blob *> lefts, vector<Blob *> rights) {
     cudaError_t cuda_ret;
 
     in_h=lefts[0]->_data;
-    out_h=(float*)malloc(num_ele*sizeof(float));
+    out_h=new float[num_ele];//(float*)malloc(num_ele*sizeof(float));
     cuda_ret = cudaMalloc((void**)&in_d, num_ele * sizeof(float));
     assert(cuda_ret == cudaSuccess);
     cuda_ret = cudaMalloc((void**)&out_d, num_ele * sizeof(float));
@@ -71,7 +71,7 @@ void ReluLayer::bp_gpu(vector<Blob *> lefts, vector<Blob *> rights) {
     right_h=rights[0]->_data;
     left_h=lefts[0]->_data;
 
-    out_h=(float*)malloc(num_ele*sizeof(float));
+    out_h=new float[num_ele]; //(float*)malloc(num_ele*sizeof(float));
 
     cuda_ret = cudaMalloc((void**)&left_d, num_ele * sizeof(float));
     assert(cuda_ret == cudaSuccess);
