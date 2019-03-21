@@ -40,7 +40,8 @@ private:
     int out_height;
     void update(int batchSize);
     void conv( Blob &input, Blob &kernel,Blob &output,int w_stride, int h_stride);
-};
+    void manage_mem_and_conv(Blob &input, Blob &kernel, Blob &output, int w_stride, int h_stride, float* bias=NULL);
+    };
 
 
 #endif //MAIN_CONV_LAYER_H
