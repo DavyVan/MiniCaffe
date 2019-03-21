@@ -4,6 +4,8 @@
  * @brief Generator
  * @date 08/Mar/2019
  */
+#ifndef _GENERATOR_H_
+#define _GENERATOR_H_
 
 #include "blob.h"
 
@@ -15,3 +17,5 @@ class Generator
 {
     virtual Blob* next_batch()=0;
 };
+
+#endif

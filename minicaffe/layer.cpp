@@ -18,3 +18,15 @@ int Layer::add_to_net(Net* net, const char* lefts[], const int numLefts, const c
 {
     return net->add_layer(this, lefts, numLefts, rights, numRights);
 }
+
+void Layer::infer_gpu(vector<Blob*> left_blobs, vector<Blob*> right_blobs)
+{
+    printf("infer_gpu in base class layer is not implemented.\n");
+    exit(1);
+}
+
+void Layer::bp_gpu(vector<Blob*> lefts, vector<Blob*> rights)
+{
+    printf("infer_gpu in base class layer is not implemented.\n");
+    exit(1);
+}

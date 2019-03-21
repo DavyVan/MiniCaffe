@@ -2,6 +2,8 @@
 
 master: [![Build Status](https://travis-ci.com/DavyVan/UCR-CS217-FinalProject.svg?token=aPmAPRxERpUR8kmR2XzD&branch=master)](https://travis-ci.com/DavyVan/UCR-CS217-FinalProject)
 fq-dev: [![Build Status](https://travis-ci.com/DavyVan/UCR-CS217-FinalProject.svg?token=aPmAPRxERpUR8kmR2XzD&branch=fq-dev)](https://travis-ci.com/DavyVan/UCR-CS217-FinalProject)
+yz-branch: [![Build Status](https://travis-ci.com/DavyVan/UCR-CS217-FinalProject.svg?token=aPmAPRxERpUR8kmR2XzD&branch=yz-branch)](https://travis-ci.com/DavyVan/UCR-CS217-FinalProject)
+mc-dev: [![Build Status](https://travis-ci.com/DavyVan/UCR-CS217-FinalProject.svg?token=aPmAPRxERpUR8kmR2XzD&branch=mc-dev)](https://travis-ci.com/DavyVan/UCR-CS217-FinalProject)
 
 ## NOTICE
 
@@ -23,6 +25,11 @@ fq-dev: [![Build Status](https://travis-ci.com/DavyVan/UCR-CS217-FinalProject.sv
 2. No check for repeated names of blobs and layers.
 1. Cannot control the start point and end point. You can only run the whole net forward or/and backward.
 1. For other unstated limitations, please see the TODOs in source code. 
+
+## Requirements
+* g++ 4.9+
+* CMake 2.8.11+
+* CUDA
 
 ## How to build MiniCaffe
 
@@ -54,6 +61,32 @@ fq-dev: [![Build Status](https://travis-ci.com/DavyVan/UCR-CS217-FinalProject.sv
     git submodule update
     cd build
     cmake ..
+    cmake --build .     # Then find the final executable in [root dir]/build/
+    
+## How to build on Tardis
+
+    git clone [url]
+    cd [root_dir]
+    git submodule init
+    git submodule update
+    cd build
+    export CXX=/act/gcc-5.1.0/bin/g++
+    export CC=/act/gcc-5.1.0/bin/gcc
+    cmake -D CMAKE_C_COMPILER=gcc CMAKE_CXX_COMPILER=g++ /curr_absolute_build_path/
+    cmake .. -DTEST_ENABLED=ON
+    cmake --build .     # Then find the final executable in [root dir]/build/
+
+## How to build on Tardis
+
+    git clone [url]
+    cd [root_dir]
+    git submodule init
+    git submodule update
+    cd build
+    export CXX=/act/gcc-5.1.0/bin/g++
+    export CC=/act/gcc-5.1.0/bin/gcc
+    cmake -D CMAKE_C_COMPILER=gcc CMAKE_CXX_COMPILER=g++ /curr_absolute_build_path/
+    cmake .. -DTEST_ENABLED=ON
     cmake --build .     # Then find the final executable in [root dir]/build/
 
 ## Change log of master branch

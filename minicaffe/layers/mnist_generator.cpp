@@ -1,19 +1,20 @@
 //
 // Created by mingchen on 3/9/19.
 //
-
 #include "mnist_generator.h"
 #include "../blob.h"
 #include <iostream>
 #include <assert.h>
 #include <cstring>
 #include <fstream>
-
-MnistGenerator::MnistGenerator(std::string sampleFile, std::string labelFile) {
-    using namespace std;
+#include <algorithm>
+#include <errno.h>
+using namespace std;
+MnistGenerator::MnistGenerator(std::string sampleFile, std::string labelFile)
+ {
     try{
-        sampleFS=ifstream(sampleFile.c_str(),ios::in|ios::binary);
-        labelFS=ifstream(labelFile.c_str(),ios::in|ios::binary);
+        sampleFS.open(sampleFile.c_str(),ios::in|ios::binary);
+        labelFS.open(labelFile.c_str(),ios::in|ios::binary);
     }
     catch(exception e){
         std::cout<<"[ERROR] Sample file not exist"<<endl<<flush;
@@ -53,22 +54,24 @@ MnistGenerator::MnistGenerator(std::string sampleFile, std::string labelFile) {
 
 }
 
+#include <cmath>
 std::vector<Blob> MnistGenerator::loadSample(int batchSize){
     int valid_batch=std::min(size-offset,batchSize);
     Blob sample("sample_temp",valid_batch,row_size,col_size,1,4);
     sample.init();
-    Blob label("label_temp",valid_batch,1,1,1,4);
+    Blob label("label_temp",valid_batch,10,1,1,4);
     label.init();
     for(int i=0;i<valid_batch;i++){
-        std::cout<<i*row_size*col_size<<std::endl;
-        std::cout<<&sample._data[i*row_size*col_size]<<std::endl;
-        std::cout<<_images[offset+i].data()<<std::endl;
+        // std::cout<<i*row_size*col_size<<std::endl;
+        // std::cout<<&sample._data[i*row_size*col_size]<<std::endl;
+        // std::cout<<_images[offset+i].data()<<std::endl;
         for(int x=0;x<col_size;x++){
-            for(int y=0;y<col_size;y++){
-                *(sample.at(i,x,y,1))=_images[offset+i][y*col_size+x];
+            for(int y=0;y<row_size;y++){
+                sample(i,x,y,0)=_images[offset+i][y*col_size+x] / 255.0;
             }
         }
-        label._data[i]=_labels[offset+i];
+        label(i,_labels[offset+i],0,0)=1;
+        //label._data[i]=_labels[offset+i];
     }
     std::vector<Blob> ret;
     ret.push_back(sample);
@@ -99,7 +102,7 @@ void MnistGenerator::loadToMemory() {
     buffer=new char[size];
     labelFS.read(buffer,size);
     for(int i=0;i<size;i++){
-        _labels.push_back(float(buffer[i]));
+        _labels.push_back(buffer[i]);
     }
 
     delete[] buffer;
