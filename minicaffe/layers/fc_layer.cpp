@@ -62,7 +62,7 @@ void FCLayer::infer(std::vector<Blob*> lefts, std::vector<Blob*> rights)
     Blob* left = lefts[0];
     Blob* right = rights[0];
     // helper::print_blob(*left);
-    printf("%d %d %d\n", M_, N_, K_);
+    // printf("%d %d %d\n", M_, N_, K_);
 
     // treat _data as a 2D matrix
     // right = left * weight

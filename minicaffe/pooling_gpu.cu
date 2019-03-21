@@ -109,6 +109,8 @@ __global__ void pooling_bp_basic_kernel(
 
 void PoolingLayer::infer_gpu(vector<Blob *> left_blobs, vector<Blob *> right_blobs)
 {
+  infer(left_blobs, right_blobs);
+  return;
 	int numInputs = left_blobs.size();
 
 	if (numInputs != 1) 
@@ -118,7 +120,7 @@ void PoolingLayer::infer_gpu(vector<Blob *> left_blobs, vector<Blob *> right_blo
 	}
 
     right_blobs[0]->reset();
-    unsigned threads = 4;
+    unsigned threads = 256;
     int num_ele = left_blobs[0]->get_ele_num();
     
 
@@ -137,7 +139,7 @@ void PoolingLayer::infer_gpu(vector<Blob *> left_blobs, vector<Blob *> right_blo
     int out_ele = right_blobs[0]->get_ele_num();
 
 	in_h = left_blobs[0]->_data;
-	out_h = (float*)malloc(out_ele * sizeof(float));
+	out_h = new float[out_ele]; //(float*)malloc(out_ele * sizeof(float));
 
     cuda_ret = cudaMalloc((void**)&in_d, num_ele * sizeof(float));
     if (cuda_ret != cudaSuccess)
@@ -227,7 +229,7 @@ void PoolingLayer::infer_gpu(vector<Blob *> left_blobs, vector<Blob *> right_blo
 
     cudaDeviceSynchronize();
 
-    if (right_blobs[0]->_data) free(right_blobs[0]->_data);
+    if (right_blobs[0]->_data) delete[] right_blobs[0]->_data;
     right_blobs[0]->_data=out_h;
 
     cudaFree(in_d);
@@ -248,7 +250,7 @@ void PoolingLayer::bp_gpu(vector<Blob *> left_blobs, vector<Blob *> right_blobs)
 	}
 
     left_blobs[0]->reset();
-    unsigned threads = 4;
+    unsigned threads = 256;
     int num_ele = right_blobs[0]->get_ele_num();
 
 	float *in_h, *out_h, *in_d, *out_d;
@@ -268,7 +270,7 @@ void PoolingLayer::bp_gpu(vector<Blob *> left_blobs, vector<Blob *> right_blobs)
 
 	in_h = right_blobs[0]->_data;
 	tmp_space_h = tmp_space;
-	out_h = (float*)malloc(out_ele * sizeof(float));
+	out_h = new float[out_ele]; //(float*)malloc(out_ele * sizeof(float));
 
     cuda_ret = cudaMalloc((void**)&in_d, num_ele * sizeof(float));
     if (cuda_ret != cudaSuccess)
@@ -355,7 +357,7 @@ void PoolingLayer::bp_gpu(vector<Blob *> left_blobs, vector<Blob *> right_blobs)
 
     cudaDeviceSynchronize();
 
-    if (left_blobs[0]->_data) free(left_blobs[0]->_data);
+    if (left_blobs[0]->_data) delete[] left_blobs[0]->_data;
     left_blobs[0]->_data = out_h;
 
     if (tmp_space) free(tmp_space);
